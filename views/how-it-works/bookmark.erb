@@ -1,0 +1,87 @@
+<%= erb :'how-it-works/nav', layout: false %>
+
+
+<h2>Add Bookmark to Home Screen</h2>
+
+		<ul class="nav nav-pills" id="myTab">
+			  <li class="active"><a href="#home" data-toggle="pill">Step 1</a></li>
+			  <li><a href="#select" data-toggle="pill">Step 2</a></li>
+			  <li><a href="#name" data-toggle="pill">Step 3</a></li>
+			  <li><a href="#homescreen" data-toggle="pill">Step 4</a></li>
+		</ul>
+		
+	  		
+  		<div class="tab-content">	
+			</div><div class="tab-content">
+			<div class="tab-pane active" id="home">
+			  
+			  <div class="row">
+		  			<div class="span4">
+		  				<!-- <img src="/img/how-it-works/bookmark/homescreen1.png" /> -->
+						<img src="/img/how-it-works/bookmark/samsung-test.png" width="70%" />
+		  			</div>
+		  			<div class="span6">
+		  			<br /><br /><br />
+			  			<h3>Select Bookmark</h3>
+			  			<p>Tap the add bookmark button at bottom of screen from any page on CounselorExams.com that you would like to bookmark.</p> 
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+		  
+		  <div class="tab-pane" id="select">
+			  
+			  	<div class="row">
+		  			<div class="span4">
+		  				<img src="/img/how-it-works/bookmark/add-to.png" />
+		  			</div>
+		  			<div class="span6">
+		  			<br /><br /><br />
+			  			<h3>Select Add to Home Screen</h3>
+			  			<p>Select the &ldquo;Add to Home Screen&rdquo; button.</p> 
+			  		</div>
+		  		</div>
+			  
+		  </div>
+		  <div class="tab-pane" id="name">
+		  
+			  	<div class="row">
+		  			<div class="span4">
+		  				<img src="/img/how-it-works/bookmark/add.png" />
+		  			</div>
+		  			<div class="span6">
+		  			<br /><br /><br />
+			  			<h3>Name your link</h3>
+			  			<p>Type a name for CounselorExams.com to appear on your home screen.</p>
+			  			<p>Then tap the &ldquo;Add&rdquo; button at right of screen.
+			  		</div>
+		  		</div>
+			  
+		  </div>
+		  <div class="tab-pane" id="homescreen">
+			  
+			  <div class="row">
+		  			<div class="span4">
+		  				<img src="/img/how-it-works/bookmark/badge.png" />
+		  			</div>
+		  			<div class="span6">
+		  			<br /><br /><br />
+			  			<h3>One Tap from Home Screen</h3>
+			  			<p>CounselorExams.com is now available with just one tap from your home screen.</p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+
+		  		  
+		</div>
+	</div>
+<br />
+
+
+ 
+<script>
+  $(function () {
+    $('#myTab a:first').tab('show');
+  })
+</script>

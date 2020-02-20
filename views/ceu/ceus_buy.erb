@@ -1,0 +1,43 @@
+
+
+	<div class="row">
+		<div class="span12">
+		<div class="accordion">
+			<a class="btn btn-warning" data-toggle="collapse" href="#collapseOne">
+				<strong>Instructions</strong> &nbsp;
+				<span class="caret"></span>
+			</a> &nbsp; <span style="color: #d45f11;">Please read instructions before beginning.</span>
+		</div>
+        <div id="collapseOne" class="collapse">
+			<div class="accordion-inner">
+				<h3>Exam Format Instructions</h3>
+				<br />
+				<p>The Exam Format scenarios will be introduced with a <strong>Summary</strong> of the client's initial statement or chief complaint. Read each summary carefully.</p> 
+				<p>As the counselor, you must then work through appropriate questions and gather the information necessary to formulate a diagnosis and treatment plan.</p> 
+				<p>As you answer each question, note that most have more than one answer that will provide important information. These answers will <strong>positively affect your score</strong>, so it is best to select as many positive answers as possible. Other answers will not be helpful, and thus will <strong>negatively affect your score</strong>. Still other answers will be neutral. You will find out the score associated with each answer at the end of the scenario.</p> 
+				<p>Part of the critical thinking evaluation is for you to determine which answers are important. A response is displayed immediately upon choosing an answer.</p> 
+				<p><strong>Important:</strong> each scenario contains a diagnosis <strong>Stop question</strong>. After initial information gathering questions, sufficient information will have been provided for you to make a correct diagnosis.</p> 
+				<p>For the Stop question, you will be instructed not to go forward until a correct diagnosis is made. For some scenarios, you may be instructed to find a second or third diagnosis before going to the next question. A recommended treatment question usually follows the diagnosis question. When dual or multiple diagnoses are identified, the treatment question should be answered with treatments for all identified diagnoses.</p>
+				<hr />
+				<p>To access a scenario, log into your account and click on the link “choose a scenario to get started”.</p>
+				<p>To answer a question, click on a box.</p>
+				<p>To move to the next question, click on the next question number at the bottom of the page. NOTE: You may not skip a page. The system will only allow you to open the next page in succession.</p>
+				<p>Once you have finished all of the questions, click on the “Show Score” box at the bottom of the page.</p>
+			</div>
+		</div>	
+		<div class="row">
+		<% @scenarios.each do |scenario| %>
+			<% if scenario.practice %>
+	<!-- <%= '<div class="row">' if scenario.id.odd? %> -->
+		<div class="span6" style="min-height: 24em;">
+			<h3>
+				<%= scenario.id %>. <%= scenario.title %>
+			</h3>
+			<%= markdown scenario.body.truncate(100) %>
+			
+			<br />
+		</div>
+		<% end %>
+	<% end %>
+	</div>
+</div>

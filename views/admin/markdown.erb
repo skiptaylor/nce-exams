@@ -1,0 +1,133 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Markdown</li>
+		</ul> -->
+		
+		<div class="page-header">
+			<h2>Markdown Guidelines</h2>
+		</div>
+		<div>
+			<p>Markdown is intended to be as easy-to-read and easy-to-write as is feasible without using HTML tags. For any markup that is not covered by Markdown’s syntax, you simply use HTML itself. <strong>IMPORTANT:</strong> Note where spaces are used within the code. Omission of spaces where intended or use of spaces where unintended will cause text to display incorrectly. Don't hesitate to call developer for support.</p><br />
+		<div>
+			<table class="table table-striped table-bordered">
+				<tr>
+					<th>
+						Markdown
+					</th>
+					<th>
+						Displays
+					</th>
+				</tr>
+				<tr>
+					<td>Soft return<br />
+						Next line is in same paragraph<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> two or more spaces at end of first line)</small></td>
+					<td>Soft return<br />Next line is in same paragraph</td>
+				</tr>
+				<tr>
+					<td>Hard return<br /><br />
+						Next line is new paragraph<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> two returns at end of first line)</small></td>
+					<td>Soft return<br /><br />Next line is new paragraph</td>
+				</tr>
+				<tr>
+					<td># Header 1<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> space between tag and text)</small></td>
+					<td><h1>Header 1</h1></td>
+				</tr>
+				<tr>
+					<td>## Header 2</td>
+					<td><h2>Header 2</h2></td>
+				</tr>
+				<tr>
+					<td>### Header 3</td>
+					<td><h3>Header 3</h3></td>
+				</tr>
+				<tr>
+					<td>#### Header 4<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(Includes only increased line spacing from header 3)</small></td>
+					<td><h4>Header 4</h4></td>
+				</tr>
+				<tr>
+					<td>##### Header 5</td>
+					<td><h5>Header 5</h5></td>
+				</tr>
+				<tr>
+					<td>###### Header 6</td>
+					<td><h6>Header 6</h6></td>
+				</tr>
+				<tr>
+					<td>**Emphasis bold**<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> no space between tag and text)</mamll></td>
+					<td><strong>Emphasis bold</strong></td>
+				</tr>
+				<tr>
+					<td>*Emphasis italics*</td>
+					<td><em>Emphasis italics</em></td>
+				</tr>
+				<tr>
+					<td>*Emphasis **used in** combination*</td>
+					<td><em>Emphasis <strong>used in</strong> combination</em></td>
+				</tr>
+				<tr>
+					<td>Strike <span>&lt;strike&gt;</span>is handled<span>&lt;/strike&gt;</span> like this<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> this is inline HTML)</small></td>
+					<td>Strike <strike> is handled</strike> like this</td>
+				</tr>
+				<tr>
+					<td>Underline <span>&lt;u&gt;</span>is handled<span>&lt;/u&gt;</span> like this<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> this is inline HTML)</small></td>
+					<td>Underline <u> is handled</u> like this</td>
+				</tr>
+				<tr>
+					<td>[Arthur NCE Workshops](http://arthurnceworkshops.com)</td>
+					<td><a href="http://www.arthurnceworkshop.com/" target="_blank">Arthur NCE Workshops</a></td>
+				</tr>
+				<tr>
+					<td>Ordered List:<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;;">(<strong>Note:</strong> hard return here)</small><br />
+						1. Item One<br />
+						2. Item Two<br />
+						 &nbsp;&nbsp; 1. Level two Item<br />
+					</td>
+					<td>Ordered List:<br />
+						<ol>
+							<li>Item One</li>
+							<li>Item Two
+							<ol>
+								<li>Level two item</li>
+							</0l>
+							</li>
+						</ol>
+					</td>
+				</tr>
+				<tr>
+					<td>Bullet List:<br />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small style="color: #e1691c;">(<strong>Note:</strong> hard return here)</small><br />
+						* Item One<br />
+						* Item Two<br />
+						  &nbsp;&nbsp; * Level two bullet<br />
+					</td>
+					<td>Bullet List:<br />
+						<ul>
+							<li>Item One</li>
+							<li>Item Two
+								<ul>
+									<li>Level two bullet</li>
+								</ul>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+
+</div>

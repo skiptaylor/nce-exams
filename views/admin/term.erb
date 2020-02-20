@@ -1,0 +1,78 @@
+<%
+	chapters = []
+	Glossary.all.group_by(&:chapter).each {|chapter, term| chapters << chapter if chapter}
+%>
+
+<script>
+	$(document).ready(function() {
+		var chapters = <%= chapters.to_json %>;
+	});
+</script>
+
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li><a href="/admin/glossary">Glossary</a> <span class="divider">/</span></li>
+			<li class="active"><%= @term.term %></li>
+		</ul>
+		
+		<h1><%= @term.term %></h1>
+
+		<form class="form-horizontal" method="post">
+			
+			<div class="control-group" id="term-group">
+				<label class="control-label" for="term">Term</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="term" name="term" value="<%= @term.term %>">
+				</div>
+			</div>
+
+			<div class="control-group" id="definition-group">
+				<label class="control-label" for="short_def">Short Definition</label>
+				<div class="controls">
+					<textarea name="short_def" id="short_def" class="input-xlarge" rows="7"><%= @term.short_def %></textarea>
+				</div>
+			</div>
+			
+			<div class="control-group" id="definition-group">
+				<label class="control-label" for="definition">Definition</label>
+				<div class="controls">
+					<textarea name="definition" id="definition" class="input-xlarge" rows="7"><%= @term.definition %></textarea>
+				</div>
+			</div>
+			
+			<div class="control-group" id="exam-group">
+				<label class="control-label" for="exam">Exam</label>
+				<div class="controls">
+					<select id="exam" name="exam">
+						<option value=""></option>
+						<option value="NCE" <%= 'selected' if @term.exam == 'NCE' %>>NCE</option>
+						<option value="NCMHCE" <%= 'selected' if @term.exam == 'NCMHCE' %>>NCMHCE</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group" id="chapter-group">
+				<label class="control-label" for="chapter">Chapter</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" autocomplete="off" id="chapter" name="chapter" value="<%= @term.chapter %>">
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-primary" value="<%= @term.id ? 'Update' : 'Create' %>" /> &nbsp; &nbsp; &nbsp; <a class="btn btn-default" href="<%= request.referrer %>">Cancel</a>
+				</div>
+			</div>
+						
+		</form>
+
+	</div>
+
+</div>

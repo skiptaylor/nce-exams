@@ -1,0 +1,41 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li>Manuals <span class="divider">/</span></li>
+			<li class="active">Sections</li>
+		</ul>
+		
+		<h1>Section <%= @manual.name %></h1>
+
+			<form class="form-horizontal" method="post">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="section_number">Number</label>
+						<div class="controls">
+							<input type="text" name="section_number" id="section_number" value="<%= @section.section_number %>" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="section_title">Title</label>
+						<div class="controls">
+							<input type="text" name="section_title" id="section_title" value="<%= @section.section_title %>" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="title_page"></label>
+						<div class="controls">
+							<input class="btn btn-small btn-primary" type="submit" value="Save" /> &nbsp; <a class="btn btn-small" href="<%= request.referrer %>">Cancel</a> &nbsp; <a class="btn btn-small btn-danger delete" href="/admin/manuals/<%= @manual_id %>/sections/<%= @section_id %>/delete">Delete</a>
+						</div>
+					</div>
+
+				</fieldset>
+			</form>
+	</div>
+
+</div>

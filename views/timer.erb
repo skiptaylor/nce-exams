@@ -1,0 +1,129 @@
+<div class="row">
+
+	<div class='span2 oswald' style="text-align: right; margin-top: -9px; width: 5.8em;">
+	<h4 style="font-size: 1.7;" type='text' name='timer' class='timer' placeholder='0 sec'>Timer</h4>
+	</div>
+
+	<div class="span2" style="width: 8em;">
+		<div class="btn-group">
+
+	<button style="margin: 1; border-radius: 0px; font-weight: 400;" class='btn btn-success btn-small resume-timer-btn hidden'>Resume</button>
+	<button style="margin: 1; border-radius: 0px; font-weight: 400;" class='btn btn-success pause-timer-btn btn-small hidden'>Pause</button>
+	<button style="margin: 1; border-radius: 0px; font-weight: 400;" class='btn btn-danger btn-small remove-timer-btn hidden'>Stop</button>
+	<button style="margin: 1; border-radius: 0px; font-weight: 400;" class='btn btn-success btn-small start-timer-btn'>Start</button>
+	</div>
+</div>
+</div>
+
+<!-- <div class="timer center pull-right">
+   <p style="font-size: 1.15em; display: inline-block; line-height: 1.8em;" class="oswald blue-color">Timer &nbsp;
+
+   <tLabel id="hours">00</tLabel>:<tLabel id="minutes">00</tLabel>:<tLabel id="seconds">00</tLabel>
+    &nbsp;
+
+   <input type="button" class="btn btn-mini" id="gobutton" onclick="startTimer()" value="Start">
+   <input type="button" class="btn btn-mini" id="pausebutton" onclick="pauseTimer()" value="Pause">
+   <input type="button" class="btn btn-mini" id="stopbutton" onclick="stopTimer()" value="Stop">
+
+    &nbsp;
+   <tLabel id="totalTime">
+   </tLabel>
+	</p>
+</div>
+
+
+<script type="text/javascript">
+    var hourstLabel = document.getElementById("hours");
+    var minutestLabel = document.getElementById("minutes");
+    var secondstLabel = document.getElementById("seconds");
+    var totalTime = document.getElementById("totalTime");
+    var totalSeconds = 0;
+    var totalMinutes = 0;
+    var totalHours = 0;
+    var counter;
+    var timerOn;
+    var htmlResets;
+    var totalMills = 0;
+
+    function startTimer() {
+        if (timerOn == 1) {
+            return;
+        }
+        else {
+            counter = setInterval(setTime, 10);
+            timerOn = 1;
+            htmlResets = 0;
+        }
+    }
+
+    function pauseTimer() {
+        if (timerOn == 1) {
+            clearInterval(counter);
+            timerOn = 0;
+        }
+
+        if (htmlResets == 1) {
+            hourstLabel.innerHTML = "00";
+            minutestLabel.innerHTML = "00";
+            secondstLabel.innerHTML = "00";
+            totalMills = 0;
+            totalSeconds = 0;
+            totalMinutes = 0;
+            totalHours = 0;
+        }
+        else {
+            htmlResets = 1;
+        }
+    }
+
+    function stopTimer() {
+        totalTime.innerHTML = "Time Recorded: " + hourstLabel.innerHTML + ":" + minutestLabel.innerHTML + ":" + secondstLabel.innerHTML;
+        hourstLabel.innerHTML = "00";
+        minutestLabel.innerHTML = "00";
+        secondstLabel.innerHTML = "00";
+        totalMills = 0;
+        totalSeconds = 0;
+        totalMinutes = 0;
+        totalHours = 0;
+        clearInterval(counter);
+        timerOn = 0;
+    }
+
+    function setTime() {
+        ++totalMills;
+        if (totalHours == 99 & totalMinutes == 59 & totalSeconds == 60) {
+            totalHours = 0;
+            totalMinutes = 0;
+            totalSeconds = 0;
+            hourstLabel.innerHTML = "00";
+            minutestLabel.innerHTML = "00";
+            secondstLabel.innerHTML = "00";
+            clearInterval(counter);
+        }
+        if (totalMills == 100) {
+            totalSeconds++;
+            secondstLabel.innerHTML = pad(totalSeconds % 60);
+            totalMills = 0;
+        }
+        if (totalSeconds == 60) {
+            totalMinutes++;
+            minutestLabel.innerHTML = pad(totalMinutes % 60);
+            totalSeconds = 0;
+        }
+        if (totalMinutes == 60) {
+            totalHours++;
+            hourstLabel.innerHTML = pad(totalHours);
+            totalMinutes = 0;
+        }
+    }
+
+    function pad(val) {
+        var valString = val + "";
+        if (valString.length < 2) {
+            return "0" + valString;
+        }
+        else {
+            return valString;
+        }
+    }
+</script>  -->

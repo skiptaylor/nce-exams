@@ -1,0 +1,39 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Issues</li>
+		</ul>
+		
+		<div class="page-header">
+			<h2>Issues</h2>
+		</div>
+
+		<form method="post">
+
+			<p>
+				<label for="name"><strong>Issue</strong></label>
+				<input type="text" name="name" id="name" class="textfield span4" value="<%= @issue.name %>" />
+			</p>
+			<p>
+				<label for="problem"><strong>Problem</strong></label>
+				<textarea type="text" name="problem" id="problem" class="textfield span7" rows="3"><%= @issue.problem %></textarea>
+			</p>
+			<p>
+				<label for="solution"><strong>Solution</strong></label>
+				<textarea type="text" name="solution" id="solution" class="textfield span7"  rows="5"><%= @issue.solution %></textarea>
+			</p>
+		
+			<p class="span7">
+				<span class="pullright"><input class="btn btn-small btn-primary" type="submit" value="Save" /> &nbsp; <a class="btn btn-small" href="/admin/issues">Cancel</a></span>
+			</p>
+
+	</form>
+	</div>
+</div>
+

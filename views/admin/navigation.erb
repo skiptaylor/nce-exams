@@ -1,0 +1,44 @@
+<div class="affix">
+	<div class="well span3" style="margin: 0 0 2em 0; padding: 0; background: #ffffff;">
+		<ul class="nav nav-list">
+			<li class="<%= active '/admin/users' %>">
+				<a href="/admin/users" class="list-nav" style="padding: 9px 6px 9px 14px;"> Users <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/users' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/purchases' %>">
+				<a href="/admin/purchases" class="list-nav" style="padding: 9px 6px 9px 14px;"> Purchases <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/purchases' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/messages' %>">
+				<a href="/admin/messages" class="list-nav" style="padding: 9px 6px 9px 14px;"> Messages <i class="icon-chevron-right pull-right icon-gray  <%= 'icon-white' if request.path_info.include? '/admin/messages' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/stats' %>">
+				<a href="/admin/stats" class="list-nav" style="padding: 9px 6px 9px 14px;"> Stats <i class="icon-chevron-right pull-right icon-gray  <%= 'icon-white' if request.path_info.include? '/admin/stats' %>"></i></a>
+			</li>
+			<li class="nav-header" style="color: #535353; background-color: #cad2d4; margin-top: -1px;">Products</li>
+			<li class="<%= active '/admin/scenarios' %>">
+				<a href="/admin/scenarios" class="list-nav" style="padding: 9px 6px 9px 14px;"> NCMHCE Scenarios <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/scenarios' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/exams' %>">
+				<a href="/admin/exams" class="list-nav" style="padding: 9px 6px 9px 14px;"> NCE Exams <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/exams' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/glossary/ncmhce' %>">
+				<a href="/admin/glossary/ncmhce" class="list-nav" style="padding: 9px 6px 9px 14px;"> NCMHCE Flashcards <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/glossary/ncmhce' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/glossary/nce' %>">
+				<a href="/admin/glossary/nce" class="list-nav" style="padding: 9px 6px 9px 14px;"> NCE Flashcards <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/glossary/nce' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/glossary/other' %>">
+				<a href="/admin/glossary/other" class="list-nav" style="padding: 9px 6px 9px 14px;"> Glossary (unused) <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/glossary/other' %>"></i></a>
+			</li>
+			<li class="nav-header" style="color: #535353; background-color: #cad2d4; margin-top: -1px;">Guides</li>
+			<li class="<%= active '/admin/manuals' %>">
+				<a href="/admin/manuals" class="list-nav" style="padding: 9px 6px 9px 14px;"> Manuals <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/manuals' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/issues' %>">
+				<a href="/admin/issues" class="list-nav" style="padding: 9px 6px 9px 14px;"> Issues <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/issues' %>"></i></a>
+			</li>
+			<li class="<%= active '/admin/markdown' %>">
+				<a href="/admin/markdown" class="list-nav" style="padding: 9px 6px 9px 14px; border-bottom: 0;"> Markdown Guidelines <i class="icon-chevron-right pull-right icon-gray <%= 'icon-white' if request.path_info.include? '/admin/markdown' %>"></i></a>		
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,114 @@
+$(window).load ->
+	
+	Stripe.setPublishableKey '<%= STRIPE_PUBLISH_KEY %>'
+	
+	$.ajaxSetup { async: false }
+
+	$('form#payment-form').change -> summarize()
+	
+	summarize = () ->
+		$('#program-package-confirmation').html 			$("input[name='package']:checked").val()
+		$('#optional-enhancements-confirmation').html 	$("input[name='optional']:checked").val()
+		$('#optional2-enhancements-confirmation').html 	$("input[name='optional2']:checked").val()
+		$('#name-confirmation').html 							"#{$('input#first_name').val()} #{$('input#last_name').val()}"
+		$('#email-confirmation').html 						$('input#email').val()
+		$('#password-confirmation').html 					$('input#password').val()
+		$('#card-number-confirmation').html 				$('input.card-number').val()
+		$('#cvc-confirmation').html 							$('input.card-cvc').val()
+		$('#expiration-confirmation').html 					"#{$('.card-expiry-month').val()} / #{$('.card-expiry-year').val()}"
+		$('#address-confirmation').html						$('input#address1').val()
+		$('#address-confirmation').append(", #{$('input#address2').val()}") unless $('input#address2').val() == ''
+		$('#city-confirmation').html							$('input#city').val()
+		$('#state-confirmation').html							$('select#state').val()
+		$('#zip-confirmation').html							$('input#zip').val()
+		$('#license-confirmation').html						$('input#license').val()
+		
+		total = 0
+		package_total  = parseFloat($("input[name='package']:checked").attr('data-price'))  || 0
+		optional_total = parseFloat($("input[name='optional']:checked").attr('data-price')) || 0
+		optional2_total = parseFloat($("input[name='optional2']:checked").attr('data-price')) || 0
+		total = total + package_total + optional_total+ optional2_total
+		
+		if $('input#zip').val()
+			zip = $('input#zip').val()
+		else
+			zip = 0
+		
+		$.get(
+			'/tax/' + zip,
+			(data) ->
+				tax = total * data
+				total = (total + tax).toFixed(2)
+		)
+		
+		$('input#amount').val(total)
+		$('#total-display').html total
+		
+		$('.submit-button').removeAttr('disabled').removeClass('disabled') 
+	
+	summarize()
+	
+	validateEmail = (emailAddress) ->
+		pattern = new RegExp(/@/)
+		return pattern.test(emailAddress)
+	
+	$('.submit-button').click (event) ->
+		$('.submit-button').attr('disabled', 'disabled').removeClass('disabled').addClass('disabled')
+				
+		window.errors = []
+		
+		unless $("input[name='package']:checked").val()
+			errors.push 'You must choose a package.'
+		if ($('input#first_name').val() == '') || ($('input#last_name').val() == '')
+			errors.push 'You must enter a first and last name.'
+		unless validateEmail($('input#email').val())
+			errors.push 'You must enter a valid email address.'
+		if $('input#password').val() == ''
+			errors.push 'You must enter a password.'
+		if $('input#license').val() == ''
+			errors.push 'You must enter a license number.'
+		if $('input.card-number').val() == ''
+			errors.push 'You must enter a credit card number.'
+		if $('input.card-cvc').val() == ''
+			errors.push 'You must enter a credit card validation code (CVC).'
+		if ($('input#address1').val() == '') || ($('input#city').val() == '') || ($('select#state').val() == '') || ($('input#zip').val() == '')
+			errors.push 'You must enter an address, city, state, and zip.'
+		
+		unless ($('input#email').is(':disabled')) || ($('input#email').val() == '') || ($('input#password').val() == '') || ($('input#license').is(':disabled')) || ($('input#license').val() == '')
+			$.post(
+				'/user/account-ever-existed',
+				{ email: $('input#email').val(), password: $('input#password').val(), license: $('input#license').val() }
+				(data) ->
+					if (data == 'account exists') || (data == 'email exists')
+						errors.push 'That email address is already in use. Maybe you need to <a href="/sign-in">sign in</a> first?'
+					if (data == 'license exists')
+						errors.push 'That license is already in use. Maybe you need to <a href="/sign-in">sign in</a> your existing account first?'
+			)
+					
+		displayErrors(errors) if errors[0]
+		
+		unless errors[0]
+			Stripe.createToken(
+				number: $('.card-number').val(),
+				cvc: $('.card-cvc').val()
+				exp_month: $('.card-expiry-month').val(),
+				exp_year: $('.card-expiry-year').val()
+			(status, response) ->
+				if response.error
+					errors.push response.error.message
+					displayErrors(errors)
+				else
+					form$ = $("#payment-form")
+					token = response['id']
+					form$.append "<input type='hidden' name='stripeToken' value='" + token + "'/>"
+					form$.get(0).submit()
+			)
+							
+		return false
+	
+	displayErrors = (errors) ->
+		$('div#errors').html('<ul></ul>')
+		for error in errors
+			$('div#errors ul').append "<li>#{error}</li>"
+	
+	return false

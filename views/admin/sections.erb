@@ -1,0 +1,45 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		
+		<h1 class="blue-color"><%= @manual.name %></h1>
+		<p style="float: right;">
+			<a href="/admin/manuals" class="btn btn-default btn-small pull-right">Manuals</a>
+		</p>
+		<h1>Sections</h1>
+		
+		<table class="table table-condensed">
+				<tr>
+					<th>
+						Number
+					</th>
+					<th>
+						Section
+					</th>
+
+					<td>
+						<a href="/admin/manuals/<%= @manual.id %>/sections/new" class="btn btn-success btn-mini pull-right">New section</a>
+					</td>
+				</tr>
+				<% @section.sort_by(&:section_number).each do |section| %>
+				<tr>
+					<td>
+						<%= section.section_number %>
+					</td>
+					<td>
+						<%= section.section_title %>
+					</td>
+					<td>
+						<span class="pull-right"><a href="/admin/manuals/<%= @manual.id %>/sections/<%= section.id %>/edit" class="btn btn-default btn-mini">Edit</a> <a href="/admin/manuals/<%= @manual.id %>/sections/<%= section.id %>/chapters" class="btn btn-primary btn-mini">Chapters</a></span>
+					</td>
+				</tr>
+				<% end %>
+			</table>
+			
+	</div>
+
+</div>

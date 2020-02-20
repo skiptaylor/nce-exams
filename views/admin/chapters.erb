@@ -1,0 +1,52 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+
+		<h1 class="blue-color"><%= @manual.name %> - <%= @section.section_title %></h1>
+		<p style="float: right;">
+			<a href="/admin/manuals/<%= @manual.id %>/sections" class="btn btn-default btn-small pull-right">Sections</a>
+		</p>
+		
+		<h1>Chapters</h1>
+		
+		<table class="table table-condensed table-striped table-hover">
+				<tr>
+					<th>
+						Number
+					</th>
+					<th>
+						Title
+					</th>
+					
+					<td style="width: 90px;">
+						<a href="/admin/manuals/<%= @manual.id %>/sections/<%= @section.id %>/chapters/new" class="btn btn-success btn-mini pull-right">New Chapter</a>
+					</td>
+				</tr>
+				<% @chapter.sort!{|a,b| a.chapter_number <=> b.chapter_number}.each do |chapter| %>
+				<tr>
+					<td>
+						<%= chapter.chapter_number %>
+					</td>
+					<td>
+						<% if chapter.chapter_title != "" %>
+						<span style="font-weight: 600;"><%= chapter.chapter_title %></span>
+						<% else %>
+						<span style="padding-left: 1.2em;"><%= chapter.sub_chapter_title %>
+						<% end %>
+					</td>
+					<td>
+						<span class="pull-right"><a href="/admin/manuals/<%= @manual.id %>/sections/<%= @section.id %>/chapters/<%= chapter.id %>/edit" class="btn btn-default btn-mini">Edit</a> <a href="/admin/manuals/<%= @manual.id %>/sections/<%= @section.id %>/chapters/<%= chapter.id %>/view" class="btn btn-primary btn-mini">View</a></span>
+					</td>
+				</tr>
+				<% end %>
+			</table>
+			<hr />
+			<p><small><strong>NOTE</strong> Chapter numbers are only used to order chapters. The numbers are not displayed to the user. This means you can add a sub-chapter between existing chapters in the lsit without changing all the following numbers by adding a decimal. ( Number 03.1 will follow 03 )</small></p>
+			
+	</div>
+
+</div>

@@ -1,0 +1,67 @@
+<div class="row">
+  
+  <div class="span3">
+    <%= erb :'admin/navigation', layout: false %>
+  </div>
+  
+  <div class="span9">
+    
+    <h2>New Message</h2>
+    
+    <form method="post">
+      <p>
+        <textarea name="body" id="body" rows="5" class="span9"></textarea>
+      </p>
+      <div class="row">
+        <div class="span1">
+          <label class="checkbox" for="profile">
+            <input type="checkbox" name="profile" id="profile" /> Profile
+          </label>
+        </div>
+        <div class="span1">
+          <label class="checkbox" for="ncmhce">
+            <input type="checkbox" name="ncmhce" id="ncmhce"> NCMHCE
+          </label>
+        </div>
+        <div class="span1" style="margin-left: 3em;">
+          <label class="checkbox" for="nce">
+            <input type="checkbox" name="nce" id="nce"> NCE
+          </label>
+        </div>
+        <div class="span1">
+          <label class="checkbox" for="exams">
+            <input type="checkbox" name="exams" id="exams"> Exams
+          </label>
+        </div>
+        <div class="span3" style="text-align: right;">
+          <input type="submit" value="Add Message" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+    
+    <h2>Messages</h2>
+    <table class="table table-bordered">
+      <thead>
+        <th><small>Message</small></th>
+        <th style="text-align: center;"><small>Profile</small></th>
+        <th style="text-align: center;"><small>NCMHCE</small></th>
+        <th style="text-align: center;"><small>NCE</small></th>
+		  <th style="text-align: center;"><small>Exams</small></th>
+        <th></th>
+      </thead>
+      <tbody>
+        <% @messages.each do |m| %>
+          <tr>
+            <td><%= m.body %></td>
+            <td style="text-align: center;"><%= '<i class="icon-ok"' if m.profile == true %></td>
+            <td style="text-align: center;"><%= '<i class="icon-ok"' if m.ncmhce == true %></td>
+            <td style="text-align: center;"><%= '<i class="icon-ok"' if m.nce == true %></td>
+				<td style="text-align: center;"><%= '<i class="icon-ok"' if m.exams == true %></td>
+            <td><a href="/admin/messages/<%= m.id %>/delete" style="padding: 0 2px 2px 2px;" class='delete btn btn-small btn-danger'><small><i class="icon icon-remove icon-white"></i></small></a></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+  </div>
+</div>

@@ -1,0 +1,109 @@
+
+<fieldset>
+	<legend><span class="oswald" style="padding: 0 9px 0 7px;">1</span> Package <small style="color: white;"> &nbsp; (Choose one)</small></legend>
+	
+	<div class="row">	
+		<div class="span6 content">
+			
+			<label class="radio package-name">
+				<input style="font-size: 1.2em;" name="package" type="radio" id="starter-package" value="Starter Package" data-price='95' onclick="show1();" <%= 'checked="checked"' if params[:package] == 'Starter Package' %> /> &nbsp;<span style="font-size: 1.8em;" class="oswald">Starter Package $95</span>
+				</label>
+				<p>
+					<ul class="package-features">
+						<li><strong>12 Online Tutorial Scenarios</strong></li>
+						<li> Second Chance Upgrade</li>
+						<li>Study Supplement Online</li>
+						<li>Virtual Flash Cards</li>
+						<li>Phone consultation directly with Dr. Gary Arthur</li>
+						<li>Money Back Pass Guarantee</li>
+						<li>3-day Satisfaction Guarantee</li>
+						<li>Online account active for one year</li>
+					</ul>
+				<small>(Additional online scenarios can be purchased later in sets of 12 for $95.)<br />
+					(10 Online Exam scenarios can be purchased later for $70.)</small>
+				
+				</p>
+				
+			
+		</div>	<!-- span6 -->				
+	
+		<div class="span6 content">
+				
+			<label class="radio package-name">
+				<input style="font-size: 1.2em;" name="package" type="radio" id="full-package" value="Full Package" data-price='249' onclick="show2();" <%= 'checked="checked"' if params[:package] == 'Full Package' %> /> &nbsp;<span style="font-size: 1.8em;" class="oswald">Full Package $249</span>
+				 &nbsp; &nbsp; <span style="font-size: 1.6em; color: #bc272e;" class="oswald">You Save $106!</span>
+			</label>
+			<p>
+			<ul class="package-features">
+				<li><strong>All 36 Online Tutorial Scenarios</strong></li>
+				<li><strong>10 Online Exam Scenarios</strong></li>
+				<li>Study Supplement Online</li>
+				<li>Virtual Flash Cards</li>
+				<li>Phone consultation directly with Dr. Gary Arthur</li>
+				<li>Money Back Pass Guarantee</li>
+				<li>3-day Satisfaction Guarantee</li>
+				<li>Online account active for one year</li>
+			</ul>
+			</p>
+			
+		</div>	<!-- span6 -->
+
+	</div>	<!-- row -->
+	<div class="row">
+		
+		<div class="span12">
+			<hr style="margin: 1em 0; border-color: black" />
+			<p>
+				<h3 class="option-header" style="font-weight: 900;">Optional Enhancements <span style="font-weight: 400;">(for either package)</span></h3>
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		
+		<div class="span6">		
+			<p style="margin: 1em 0 0 0;">
+				<label class="checkbox">
+					<input style="font-size: 1.2em;" type="checkbox" name="optional" value="Hard Copy" id="ncmhce-hard-copy" data-price='40.65' <%= 'checked="checked"' if params[:optional] %> />&nbsp;<span style="font-size: 1.8em;" class="oswald">Study Supplement Hard Copy $40.65</span>
+				</label>	
+					
+				<ul class="package-features">
+					<li>Same study supplement as the eBook and online.</li>
+					<li>Includes shipping and handling.</li>
+				</ul>
+					
+					<small style="color: black;"><strong>Note:</strong> If you require shipment to a PO Box please call toll free 888-326-9229 for details.</small>
+			</p>  
+		</div>
+		
+		<!-- <div class="span6" id="Starter Package" style="display: none">
+			<p style="margin: 1em 0 0 0;">
+				<label class="checkbox">
+					<input style="font-size: 1.2em;" type="checkbox" name="optional2" value="NCMHCE Exam Scenarios" id="ncmhce-exam-scenarios" data-price='70' <%= 'checked="checked"' if params[:optional2] %> />&nbsp;<span style="font-size: 1.8em;" class="oswald">10 Online Exam Scenarios $70</span>
+				</label>
+
+			<ul class="package-features">
+				<li>Exam Scenarios provide practice using the exam format.</li>
+				<li>Online Exam Scenarios can be purchased later.</li>
+			</ul>
+			<small style="color: black;"><strong>Note:</strong> Online Exam Scenarios are included with Full Package.</small>
+			</p>
+		</div> -->
+
+	</div>
+	
+</fieldset>	
+
+
+<!-- <script type="text/javascript">
+
+	function show1(){
+		document.getElementById('Starter Package').style.display ='block';
+	}
+	function show2(){
+		document.getElementById('Starter Package').style.display = 'none';
+		document.getElementById("ncmhce-exam-scenarios").checked = false;
+	}
+
+</script> -->
+
+	

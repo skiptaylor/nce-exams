@@ -1,0 +1,32 @@
+<%
+	offset ||= false
+
+	percent = ((correct.to_f/possible.to_f)*100)#.to_i
+	
+	style = 'progress' if percent < 70
+	style = 'progress' if percent >= 70
+%>
+
+<div class="span5 <%= 'offset1' if offset == true %>">
+	
+	<%= label %>:
+	
+	<% unless (possible == nil) || (correct == nil) %>
+	<%= correct %>/<%= possible %> points
+	<% else %>
+	<%= correct == 0 %>/<%= possible == 0 %>
+	<% end %>
+	
+	<% unless @scenario.ceu || @scenario.workshop %>
+	<div class="progress">
+		<div class="bar" style="width: <%= percent %>%; font-size: .9em;"><%= percent = ((correct.to_f/possible.to_f)*100).to_i %>%</div>
+	</div>
+	<% else %>
+	<div class="progress">
+		<% unless (possible == 0 ) &&  (correct == 0 ) %>
+		<div class="bar" style="width: <%= percent %>%; font-size: .9em;"><%= percent = ((correct.to_f/possible.to_f)*100).to_i %>%</div>
+		<% end %>
+	</div>
+	<% end %>
+</div>
+

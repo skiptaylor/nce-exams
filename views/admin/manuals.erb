@@ -1,0 +1,20 @@
+<div class="row">
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+	<div class="span9">
+		<h1 class="blue-color">Manuals</h1>
+		<table class="table table-hover">
+			<% @manual.each do |manual| %>
+			<tr>
+				<td>
+					<strong><%= manual.name %></strong>
+				</td>
+				<td>
+					<span class="pull-right"><a href="/admin/manuals/<%= manual.id %>/edit" class="btn btn-default btn-mini">Edit</a> <a href="/admin/manuals/<%= manual.id %>/sections" class="btn btn-primary btn-mini">Sections</a></span>
+				</td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+</div>

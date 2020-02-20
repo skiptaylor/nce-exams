@@ -1,0 +1,52 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Manuals</li>
+		</ul>
+		
+		<h1>Manual</h1>
+
+			<form id="manual_edit" class="form-horizontal" method="post">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="name">Name</label>
+						<div class="controls">
+							<input class="span5" type="text" name="name" id="name" value="<%= @manual.name %>" />
+						</div>
+					</div>
+					<!-- <div class="control-group">
+						<label class="control-label" for="version">Version</label>
+						<div class="controls">
+							<input type="text" name="version" id="version" value="<%= @manual.version %>" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="isbn">ISBN</label>
+						<div class="controls">
+							<input type="text" name="isbn" id="isbn" value="<%= @manual.isbn %>" />
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="title_page">Title Page</label>
+						<div class="controls">
+							<textarea class="span6" type="text" name="title_page" id="title_page" rows="24"><%= @manual.title_page %></textarea>
+						</div>
+					</div> -->
+					<div class="control-group">
+						<label class="control-label" for="title_page"></label>
+						<div class="controls">
+							<input class="btn btn-small btn-primary" type="submit" value="Save" /> &nbsp; <a class="btn btn-small" href="/admin/manuals">Cancel</a> &nbsp; <a class="btn btn-small btn-danger delete" href="/admin/manuals/<%= @manual.id %>/delete">Delete</a>
+						</div>
+					</div>
+
+				</fieldset>
+			</form>
+	</div>
+
+</div>

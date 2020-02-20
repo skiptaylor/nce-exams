@@ -1,0 +1,60 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Glossary</li>
+		</ul> -->
+
+		<p style="float: right;">
+			<a href="/admin/glossary/new" class="btn btn-success btn-small"><i class="icon-plus icon-white"></i> New Term</a>
+		</p>
+		
+		<h1>Terms</h1>
+
+		<% @glossary.sort_by{|g| g.chapter}.group_by(&:chapter).each do |chapter, terms| %>
+			<div style="margin: 18px 0 4px 0; padding: 0 6px; background-color: #b10000; color: #ffffff;">
+				<h3 style="color: #ffffff;"><%= chapter %></h3>
+			</div>
+			
+			<% terms.sort!{|a,b| a.term <=> b.term}.each do |glossary| %>
+				<div class="row">
+				<hr style="margin: 18px 0 9px 18px; border: 0; border-bottom: 1px solid #868686;">
+					<div class="span2">
+						<strong><%= glossary.term %></strong>
+						<br />
+						<%= glossary.chapter %>
+					</div>
+					<div class="span5">
+						<% unless glossary.short_def == nil %>
+					  	<%= markdown glossary.short_def %>
+						<% else %>
+						'Short Definition is Empty'
+						<% end %>
+						<hr style="margin: 4px 0; border: 0; border-bottom: 1px solid #ccc;">
+						<% unless glossary.definition == '' %>
+					  	<%= markdown glossary.definition %>
+						<% else %>
+						'Long Definition is Empty'
+						<% end %>
+						
+					</div>
+					<div class="span2">
+						<div class="btn-group" style="float: right;">
+							<a href="/admin/glossary/<%= glossary.id %>" class="btn btn-info btn-mini"><i class="icon-edit icon-white"></i></a>
+							<a class="btn btn-mini btn-danger" href="/admin/glossary/<%= glossary.id %>/delete"><i class="icon-remove icon-white"></i></a>
+						</div>
+					</div>
+					
+					
+				</div>
+			<% end %>
+		<% end %>
+
+	</div>
+
+</div>

@@ -1,0 +1,163 @@
+<script src="/js/exam.js"></script>
+	
+<div class="page-header">
+	<h1>
+		<%= @exam.title %>
+		<small class="darker-gray">
+			<% if request.path_info.include? 'score' %>
+				Score
+			<% else %>
+				<% if params[:group] %>
+					<%= params[:group] %>
+				<% else %>
+					Part <span id="set-label">1</span> of 10
+				<% end %>
+			<% end %>
+		</small>
+	</h1>
+</div>
+
+<% if @average %>
+	<div class="well">
+		<% unless params[:group] %>
+			<div class="row">
+				<div class="span11">
+					<h3>
+						Your Score: <%= @average %>% &nbsp;
+					</h3>
+					<%
+						style = 'progress'
+						style = 'progress' if @average > 60
+						style = 'progress' if @average > 80
+					%>
+					<div class="progress <%= style %>">
+						<div class="bar" style="width: <%= @average %>%;"></div>
+					</div>
+				</div>
+			</div>
+		<% end %>
+
+		<div class="row">
+			<% params[:group] ? offset ||= true : offset ||= false %>
+		
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 1 - Professional Practice and Ethics', correct: @breakdown['Domain 1 - Professional Practice and Ethics'][:correct], possible: @breakdown['Domain 1 - Professional Practice and Ethics'][:possible] }) if (params[:group] == 'Domain 1 - Professional Practice and Ethics') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 2: Intake, Assessment, and Diagnosis', correct: @breakdown['Domain 2: Intake, Assessment, and Diagnosis'][:correct], possible: @breakdown['Domain 2: Intake, Assessment, and Diagnosis'][:possible] }) if (params[:group] == 'Domain 2: Intake, Assessment, and Diagnosis') || !params[:group] %>
+
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 3: Areas of Clinical Focus', correct: @breakdown['Domain 3: Areas of Clinical Focus'][:correct], possible: @breakdown['Domain 3: Areas of Clinical Focus'][:possible] }) if (params[:group] == 'Domain 3: Areas of Clinical Focus') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 4: Treatment Planning', correct: @breakdown['Domain 4: Treatment Planning'][:correct], possible: @breakdown['Domain 4: Treatment Planning'][:possible] }) if (params[:group] == 'Domain 4: Treatment Planning') || !params[:group] %>
+
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 5: Counseling Skills and Interventions', correct: @breakdown['Domain 5: Counseling Skills and Interventions'][:correct], possible: @breakdown['Domain 5: Counseling Skills and Interventions'][:possible] }) if (params[:group] == 'Domain 5: Counseling Skills and Interventions') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 6: Core Counseling Attributes', correct: @breakdown['Domain 6: Core Counseling Attributes'][:correct], possible: @breakdown['Domain 6: Core Counseling Attributes'][:possible] }) if (params[:group] == 'Domain 6: Core Counseling Attributes') || !params[:group] %>
+
+			
+		</div>
+		<br />
+		<a href="/nce/exams/<%= params[:id] %>/restart" class="btn restart">Start Over</a> &nbsp; <a href="/nce/exams" class="btn">Exams</a>
+		<br /><br />
+		<strong>
+			<span style="color: #666666; font-size: 90%;">COLOR CODE:</span> &nbsp; 
+			<span style="color: green;"><i class="icon-ok"></i> Correct</span>, &nbsp; 
+			<span style="color: red;">Incorrect</span>
+		</strong>
+	</div>
+	<hr />
+<% end %>
+
+<% @questions.each do |question| %>
+	<% notes = nil %>
+
+	<%=
+		if params[:group]
+			puts '<div>'
+		else
+			case question.position
+			when 1
+				'<div class="set" id="set-1">'
+			when 21
+				'<div class="set" id="set-2" style="display: none;">'
+			when 41
+				'<div class="set" id="set-3" style="display: none;">'
+			when 61
+				'<div class="set" id="set-4" style="display: none;">'
+			when 81
+				'<div class="set" id="set-5" style="display: none;">'
+			when 101
+				'<div class="set" id="set-6" style="display: none;">'
+			when 121
+				'<div class="set" id="set-7" style="display: none;">'
+			when 141
+				'<div class="set" id="set-8" style="display: none;">'
+			when 161
+				'<div class="set" id="set-9" style="display: none;">'
+			when 181
+				'<div class="set" id="set-10" style="display: none;">'
+			end
+		end
+	%>
+	
+	<%
+		read = false
+		answers = []
+		@answers.each {|a| answers << a if a.question_id == question.id}
+		answers.each {|a| read = true if @scores.include? a.id }
+	%>
+	
+	<p <%= 'class="unread"' unless @average || read %>>
+		<%= question.position %>. <%= question.body %>
+	</p>
+
+	<form>
+		<div class="row">
+			<% answers.each do |answer| %>
+				<% notes = answer.response if @average && answer.required? %>
+				<div class="span12">
+					<%
+						if @average && @scores.include?(answer.id) && answer.required?
+							style = 'color: green; font-weight: bold;'
+						elsif @average && @scores.include?(answer.id) && !answer.required?
+							style = 'color: red; font-weight: bold;'
+						else
+							style = 'color: inheret;'
+						end
+					%>
+					<label class="radio" style="<%= style %>">
+						<%= '<i class="icon-ok"></i>' if answer.required? && @average %>
+						<input type="radio" name="<%= question.id %>" value="<%= answer.id %>" <%= 'checked' if @scores.include? answer.id %> <%= 'disabled' if @average %> /> <%= answer.body %>
+					</label>
+				</div>
+			<% end %>
+		</div>
+	</form>
+	
+	<%= "<blockquote><p>#{notes}</p></blockquote>" if notes %>	
+	
+	<hr />
+	<%= '</div>' if ([20, 40, 60, 80, 100, 120, 140, 160, 180, 200].include? question.position) && !params[:group] %>
+
+<% end %>
+
+<% if params[:group] %>
+	</div>
+	
+	<p style="text-align: center;">
+		<a href="/nce/exams/<%= @exam.id %>/score?group=<%= params[:group] %>" class="btn btn-primary">Show Score</a>
+	</p>
+<% else %>
+	<div class="pagination pagination-centered">
+		<ul>
+			<li class="active"><a class="set-link" href="#part1">1</a></li>
+			<li><a class="set-link" href="#part2">2</a></li>
+			<li><a class="set-link" href="#part3">3</a></li>
+			<li><a class="set-link" href="#part4">4</a></li>
+			<li><a class="set-link" href="#part5">5</a></li>
+			<li><a class="set-link" href="#part6">6</a></li>
+			<li><a class="set-link" href="#part7">7</a></li>
+			<li><a class="set-link" href="#part8">8</a></li>
+			<li><a class="set-link" href="#part9">9</a></li>
+			<li><a class="set-link" href="#part10">10</a></li>
+			<% unless @average %>
+				<li><a href="/nce/exams/<%= @exam.id %>/score" id="score-link">Show Score</a></li>
+			<% end %>
+		</ul>
+	</div>
+<% end %>

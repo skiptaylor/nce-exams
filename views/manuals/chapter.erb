@@ -1,0 +1,22 @@
+	
+	<div class="row visible-phone">
+		<div class="span12 md">
+			<div id="<%= params[@chapter_id] %>" class="md">
+				<input type="button" class="btn" style="padding: 9px 18px;" value="Back to Chapters" onclick="history.back()">
+				<% if @chapter.chapter_title != "" %>
+				<a name="<%= params[@chapter_id] %>" style="color: #244883; text-decoration: none;"><h1 style="font-size: 1.7em;"><%= @chapter.chapter_title %></h1></a>
+				<% else %>
+				<a name="<%= params[@chapter_id] %>" style="color: #244883; text-decoration: none;"><h1 class="oswald" style="padding-top: 0.1em; font-size: 1.5em; line-height: 1.2em;"><%= @chapter.sub_chapter_title %></h1></a>
+				<% end %>
+				<%= markdown @chapter.body %>
+				<br />
+				<input type="button" class="btn" style="padding: 9px 18px;" value="Back to Chapters" onclick="history.back()">
+				<br />
+				<br />
+			</div>
+			
+		</div>
+		
+	</div>
+	
+

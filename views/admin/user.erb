@@ -1,0 +1,348 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li><a href="/admin/users">Users</a> <span class="divider">/</span></li>
+			<li class="active"><%= @user.name %></li>
+		</ul>
+		
+		<div class="page-header">
+			<% if @user.id %>
+				<a href="/admin/users/<%= @user.id %>/remove" class="btn btn-danger" style="float: right;">Delete</a>
+			<% end %>
+			<h2>
+				<% if @user.name %>
+					<%= @user.name %>
+				<% else %>
+					New User
+				<% end %>
+			</h2>
+		</div>
+		
+		<form class="form-horizontal" method="post">
+			
+			<div class="control-group" style="width: 100px;">
+				<div class="controls">
+					<label class="checkbox">
+						<input type="checkbox" name="admin" id="admin" <%= 'checked' if @user.admin? %> /> Admin
+					</label>
+				</div>
+			</div>
+			
+			<div class="control-group" id="name-group" style="margin-top: -9px;">
+				<label class="control-label" for="name">Name</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="name" name="name" value="<%= @user.name %>">
+				</div>
+			</div>
+			
+			<div class="control-group" id="email-group" style="margin-top: -9px;">
+				<label class="control-label" for="email">Email address</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="email" name="email" autocomplete="off" value="<%= @user.email %>">
+				</div>
+			</div>
+
+			<div class="control-group" id="phone-group" style="margin-top: -9px;">
+				<label class="control-label" for="phone">Phone number</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="phone" name="phone" value="<%= @user.phone %>">
+				</div>
+			</div>
+
+			<div class="control-group" id="password-group" style="margin-top: -9px;">
+				<label class="control-label" for="password">New password</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="password" name="password">
+					<span class="help-inline"><small>This will override the existing password.</small></span>
+				</div>
+			</div>
+			
+			<div class="control-group" id="exams-group">
+				<label class="control-label" for="max_exams">NCE exams</label>
+				<div class="controls">
+					<input type="text" class="span1" id="max_exams" name="max_exams" value="<%= @user.max_exams %>"> &nbsp; &nbsp; &nbsp; &nbsp; 
+				<!-- </div>
+			</div>
+
+			<div class="control-group" id="nce-downloads-group">
+				<label class="control-label" for="nce_downloads">NCE Downloads</label>
+				<div class="controls"> -->
+					<input type="checkbox" style="margin-top: -3px;" name="nce_downloads" id="nce_downloads" <%= 'checked' if @user.nce_downloads %> /> &nbsp; Downloads &nbsp; &nbsp; &nbsp; 
+					<input type="checkbox" style="margin-top: -3px;" name="nce_flashcards" id="nce_flashcards" <%= 'checked' if @user.nce_flashcards %> /> &nbsp; Flash Cards
+				</div>
+			</div>
+			
+			<div class="control-group" id="scenarios-group">
+				<label class="control-label" for="max_scenarios">NCMHCE scenarios</label>
+				<div class="controls">
+					<input type="text" class="span1" id="max_scenarios" name="max_scenarios" value="<%= @user.max_scenarios %>"> &nbsp; &nbsp; &nbsp; &nbsp; 
+			<!-- </div>
+			</div>
+
+			<div class="control-group" id="ncmhce-downloads-group">
+				<label class="control-label" for="ncmhce_downloads">NCMHCE Downloads</label>
+				<div class="controls"> -->
+					<input type="checkbox" style="margin-top: -3px;" name="ncmhce_downloads" id="ncmhce_downloads" <%= 'checked' if @user.ncmhce_downloads %> /> &nbsp; Downloads &nbsp; &nbsp; &nbsp; 
+					<input type="checkbox" style="margin-top: -3px;" name="ncmhce_flashcards" id="ncmhce_flashcards" <%= 'checked' if @user.ncmhce_flashcards %> /> &nbsp; Flash Cards
+				</div>
+			</div>
+			
+			<div class="control-group" id="max_practice_scenarios-group" style="margin-top: -3px;">
+				<label class="control-label" for="max_practice_scenarios">Exams Senarios</label>
+				<div class="controls" style="margin-top: 3px;">
+					<input type="text" class="span1" id="max_practice_scenarios" name="max_practice_scenarios" value="<%= @user.max_practice_scenarios %>"> &nbsp; &nbsp; &nbsp; &nbsp; <!-- <input type="checkbox" name="practice_exams" id="practice_exams" <%= 'checked' if @user.practice_exams %> /> -->
+				</div>
+			</div>
+			<div class="control-group" id="workshop-scenarios-group" style="margin-top: -12px;">
+				<label class="control-label" for="workshop_scenarios">Workshop Scenarios</label>
+				<div class="controls" style="margin-top: 3px;">
+					<input type="checkbox" name="workshop_scenarios" id="workshop_scenarios" <%= 'checked' if @user.workshop_scenarios %> />
+				</div>
+			</div>
+			<div class="control-group" id="expiration-group">
+				<label class="control-label" for="expiration_date">Expires</label>
+				<div class="controls">
+					<%= @user.expiration_date.to_fields 'expiration' %>
+					<span class="help-inline">Doesn't apply to admin accounts.</span>
+				</div>
+			</div>
+						
+			<div class="control-group" id="refund-request-date-group" style="margin-top: -12px;">
+				<label class="control-label" for="refund_request_date">Refund Request Date</label>
+				<div class="controls">
+					<% if @user.refund_request_date.nil? %>
+						<%= Date.new.to_fields 'refund_request' %>
+					<% else %>
+						<%= @user.refund_request_date.to_fields 'refund_request' %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="control-group" id="refund-check-date-group" style="margin-top: -12px;">
+				<label class="control-label" for="refund_check_date">Refund Check Date</label>
+				<div class="controls">
+					<% if @user.refund_check_date.nil? %>
+						<%= Date.new.to_fields 'refund_check' %>
+					<% else %>
+						<%= @user.refund_check_date.to_fields 'refund_check' %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="control-group" id="notes-group">
+				<label class="control-label" for="notes">Notes</label>
+				<div class="controls">
+					<textarea name="notes" id="notes"  style="width: 440px;" rows="9"><%= @user.notes %></textarea>
+				</div>
+			</div>
+						
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-primary" value="<%= @user.id ? 'Update' : 'Create' %>" /> &nbsp; <a type="submit" class="btn btn-default" href="<%= request.referrer %>">Cancel</a>
+				</div>
+			</div>
+			<!-- <%= @user.inspect %> -->
+		</form>
+		
+		<br />
+		
+		<div class="page-header">
+			<h2>Purchases</h2>
+		</div>
+		
+		<table class="table table-condensed table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Item</th>
+					<th>Stripe</th>
+					<th>User</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @user.purchases.each do |purchase| %>
+					<tr>
+						<td><%= purchase.created_at.display :american_day %></td>
+						<td><%= purchase.amount.dollarize %></td>
+						<td>
+							<%= purchase.package %>
+							<br />
+							<span style="font-size: 90%;"><%= purchase.options %></span> <% unless purchase.options2 == '0' %><span style="font-size: 90%;">+ <%= purchase.options2 %> Exam Scenarios</span><% end %>
+						</td>
+						<td><a href="https://manage.stripe.com/#payments/<%= purchase.stripe_id %>" target="_blank">Stripe</a></td>
+						<td><a href="/admin/users/<%= purchase.user.id %>"><%= purchase.user.email %></a></td>
+						<td style="text-align: right;">
+							<%= "<span class='label label-#{purchase.shipping_status}'>Ship</span>" if ( (purchase.package && purchase.package.include?('Hard Copy')) || (purchase.options && purchase.options.include?('Hard Copy')) ) %>
+							<a href="/admin/purchases/<%= purchase.id %>" class="btn btn-mini btn-info" style="padding: 2px 3px;"><i class="icon icon-edit icon-white"></i></a>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		
+		<br />
+
+    <!-- <% if @user.max_exams > 0 %>
+
+      <div class="page-header">
+        <h3>NCE Exams</h3>
+      </div>
+
+      <% unless @exams.empty? %>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+              <th>Exam</th>
+              <th>Score</th>
+              <th>Taken On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @exams.sort { |a,b| a.exam_id <=> b.exam_id }.each do |average| %>
+              <tr>
+                <td><%= average.exam_id %>. <%= average.exam.title %></td>
+                <td>
+                  <% if avg = Average.last(user_id: @user.id, exam_id: average.exam_id) %>
+                    <%= avg.score %>%
+                  <% else %>
+                    N/A
+                  <% end %>
+                </td>
+                <td><%= average.created_at.display %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+
+      <br />
+    <% end %> -->
+    
+    <!-- <% if @user.max_scenarios > 0 %>
+
+      <div class="page-header">
+        <h3>
+          NCMHCE Scenarios
+          <small><%= @user.remaining_scenarios %> Remaining</small>
+        </h3>
+      </div>
+
+      <% unless @scenarios.empty? %>
+        <table class="table table-condensed table-striped table-hover">
+          <thead>
+            <tr>
+  				<th>Scenario</th>
+  				<th style="text-align: center;">IG</th>
+  				<th style="text-align: center;">DM</th>
+  				<th style="text-align: center;">Taken On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @scenarios.sort { |a,b| a.scenario_id <=> b.scenario_id }.each do |average| %>
+              <% unless average.scenario.workshop? || average.scenario.practice? %>
+                <tr>
+                  <td><%= average.scenario_id %>. <%= average.scenario.title %></td>
+						<td style="text-align: center;">
+							<% @information_gathering = Scoretype.last(
+								type: "Information Gathering",
+								scenario_id: average.scenario_id,
+								user_id: session[:user]
+							) %>
+							<% if @information_gathering %>
+							<%= @information_gathering.correct %>/<%= @information_gathering.possible %>
+							<% else %><small>N/A</small><% end %>
+						</td>
+						<td style="text-align: center;">
+							<% @decision_making = Scoretype.last(
+								type: "Decision Making",
+								scenario_id: average.scenario_id,
+								user_id: session[:user]
+							) %>
+							<% if @decision_making %>
+							<%= @decision_making.correct %>/<%= @decision_making.possible %>
+							<% else %><small>N/A</small><% end %>
+						</td>
+						<td style="text-align: center;"><%= average.updated_at.display_short if average %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+
+      <br />
+    <% end %> -->
+    
+    <!-- <% if @user.workshop_scenarios? %>
+
+      <div class="page-header">
+        <h3>Workshop Scenarios</h3>
+      </div>
+
+      <table class="table table-condensed table-striped table-hover">
+        <thead>
+          <tr>
+				<th>Scenario</th>
+
+				<th>Taken On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Scenario.all(workshop: true, active: true).each do |scenario| %>
+            <% use = Use.last(scenario_id: scenario.id, user_id: @user.id) %>
+            <% avg = Average.last(scenario_id: scenario.id, user_id: @user.id) %>
+            <tr>
+              <td><%= scenario.title %></td>
+
+				<td><%= avg.updated_at.display_short if avg %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <br />
+    <% end %> -->
+    
+    
+	 
+    <!-- <% if @user.practice_exams? %>
+
+      <div class="page-header">
+        <h3>Practice Scenarios</h3>
+      </div>
+
+      <table class="table table-condensed table-striped table-hover">
+        <thead>
+          <tr>
+				<th>Scenario</th>
+
+				<th>Taken On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% Scenario.all(practice: true, active: true).each do |scenario| %>
+            <% use = Use.last(scenario_id: scenario.id, user_id: @user.id) %>
+            <% avg = Average.last(scenario_id: scenario.id, user_id: @user.id) %>
+            <tr>
+              <td><%= scenario.title %></td>
+  				<td><%= avg.updated_at.display_short if avg %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <br />
+    <% end %> -->
+	 
+
+	</div>
+
+</div>

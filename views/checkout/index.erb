@@ -1,0 +1,74 @@
+<noscript>
+		<meta HTTP-EQUIV="REFRESH" content="0; url=http://radiant-stream-6526.herokuapp.com/nojs">
+		<!-- <meta HTTP-EQUIV="REFRESH" content="0; url=https://www.counselorexams.com/nojs"> -->
+</noscript>
+
+<style>
+	form ul li	{
+		font-size: 1.2em; margin-left: 0.6em; color: #000000;
+	}
+</style>
+
+<% if params[:product] == 'ceu' %>
+	<script src="/js/checkoutceu.js"></script>
+<% else %>
+	<script src="/js/checkout.js"></script>
+<% end %>
+
+
+<div class="page-header">
+	<h1 style="color: #063d4c; font-size: 2em;">
+		Checkout
+		&nbsp;
+		<span style="color: #0671d8;"><%= @product_name %>
+	</h1>
+</div>
+
+<form method="post" id="payment-form">
+
+	<div class="row">
+		<div class="span12">
+			<%= erb :"checkout/products/#{params[:product]}", layout: false, locals: { user: @user } %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span6">
+			<%= erb :'checkout/forms/account', layout: false, locals: { user: @user } %>
+		</div>
+		<div class="span6">
+			<%= erb :'checkout/forms/credit_card', layout: false %>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span12">
+			<%= erb :'checkout/forms/summary', layout: false, locals: { user: @user } %>
+		</div>
+	</div>
+	
+</form>
+<hr style="margin-top: -2em;" />
+	<p class="pull-right" style="margin: 0 24px 0 0; padding: 0;"><small>Buy with confidence</small>  &nbsp; 
+	<img src="/img/letsencrypt-logo-horizontal.svg" style="width: 140px; margin-top: -10px;" /></p>
+
+<!-- Google Code for Counselor Exams - Buy Me Now Conversion Page --> 
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 969717940;
+var google_conversion_language = "en";
+var google_conversion_format = "2";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "zq8yCLv6jVgQtPGyzgM"; var google_conversion_value = 1.00; var google_conversion_currency = "USD"; var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript"  
+src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt=""  
+src="//www.googleadservices.com/pagead/conversion/969717940/?value=1.00&amp;currency_code=USD&amp;label=zq8yCLv6jVgQtPGyzgM&amp;guid=ON&amp;script=0"/>
+</div>
+
+</noscript>

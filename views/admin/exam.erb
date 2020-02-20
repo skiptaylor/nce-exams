@@ -1,0 +1,91 @@
+<script src="/js/admin/nce.js"></script>
+
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li><a href="/admin/exams">Exams</a> <span class="divider">/</span></li>
+			<li class="active"><%= @exam.title %></li>
+		</ul> -->
+		
+		<h1><%= @exam.title %></h1>
+		
+		<% @questions.each do |question| %>
+			<hr />
+			<div class="row">
+								
+				<div class="span8">
+					<p>
+						<strong><%= question.position %>. <span class="label label-info"><%= question.score_type %></span> <%= question.body %></strong>
+					</p>
+					<%
+						answers = []
+						@answers.each {|a| answers << a if a.question_id == question.id}
+					%>
+					<p>
+						<% answers.each do |answer| %>
+							<%= answer.body %> <%= '<i class="icon-ok"></i>' if answer.required? %>
+							<%= answer.response ? "<blockquote>#{answer.response}</blockquote>" : '<br />' %>
+						<% end %>
+					</p>
+					
+					<div class="modal fade" id="edit-<%= question.id %>" style="display: none;">
+						<div class="modal-body">
+							<form id="form-<%= question.id %>" class="form-horizontal" action="/admin/exams/<%= params[:id] %>/questions/<%= question.id %>" method="post">
+								<fieldset>
+									<span class="help-inline"><strong>Question</strong></span>
+									<input type="text" name="position" class="span1" value="<%= question.position %>">
+									&nbsp;
+									<select name="score_type">
+										<option value="Undefined">Undefined</option>
+										<option <%= 'selected' if question.score_type == 'Domain 1 - Professional Practice and Ethics' %> value="Domain 1 - Professional Practice and Ethics">Domain 1 - Professional Practice and Ethics</option>
+										<option <%= 'selected' if question.score_type == 'Domain 2: Intake, Assessment, and Diagnosis' %> value="Domain 2: Intake, Assessment, and Diagnosis">Domain 2: Intake, Assessment, and Diagnosis</option>
+										<option <%= 'selected' if question.score_type == 'Domain 3: Areas of Clinical Focus' %> value="Domain 3: Areas of Clinical Focus">Domain 3: Areas of Clinical Focus</option>
+										<option <%= 'selected' if question.score_type == 'Domain 4: Treatment Planning' %> value="Domain 4: Treatment Planning">Domain 4: Treatment Planning</option>
+										<option <%= 'selected' if question.score_type == 'Domain 5: Counseling Skills and Interventions' %> value="Domain 5: Counseling Skills and Interventions">Domain 5: Counseling Skills and Interventions</option>
+										<option <%= 'selected' if question.score_type == 'Domain 6: Core Counseling Attributes' %> value="Domain 6: Core Counseling Attributes">Domain 6: Core Counseling Attributes</option>
+									</select>
+									&nbsp;
+									<label class="checkbox" style="display: inline-block; line-height: 0em;">
+										<input type="checkbox" name="countable" <%= 'checked' if question.countable? %> style="margin-top: -.4em;" /> Counts toward score
+									</label>
+									<br /><br />
+									<textarea style="width: 97%; height: 100px;" name="body"><%= question.body %></textarea>
+								</fieldset>
+								<fieldset>
+									<% answers.each do |answer| %>
+										<br />
+										<p>
+											<input type="radio" name="required_answer" value="<%= answer.id %>" <%= 'checked' if answer.required? %> />&nbsp;
+											<input type="text" name="answers[<%= answer.id %>][body]" style="width: 93%;" value="<%= answer.body %>" />
+											<br /><br />
+											&nbsp;&nbsp;&nbsp;&nbsp;
+											<textarea style="width: 93%; height: 50px;" name="answers[<%= answer.id %>][response]"><%= answer.response %></textarea>
+										</p>
+									<% end %>
+								</fieldset>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+							<a href="#" class="btn btn-primary save" id="<%= question.id %>">Save changes</a>
+						</div>
+					</div>
+
+				</div>
+				
+				<div class="span1" style="text-align: right;">
+					<p><a href="#edit-<%= question.id %>" data-toggle="modal" class="btn btn-mini btn-primary"><i class="icon-edit icon-white"></i></a></p>
+				</div>
+				
+			</div>
+		<% end %>		
+
+	</div>
+
+</div>

@@ -1,0 +1,48 @@
+<div class="dropdown hidden-phone">
+	<button class="btn btn-primary btn-block dropdown-toggle" id="menu1" type="button" data-toggle="dropdown">SECTIONS
+	<span class="caret"></span></button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+		<li role="presentation" class="<%= active "cover" %>">
+			<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/cover">Cover</a>
+		</li>
+		<% @section.sort_by(&:section_number).each do |section| %>
+		<li role="presentation" class="<%= active "#{section.id}" %>">
+			<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/<%= section.id %>/chapters"><%= section.section_title %></a>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<div class="hidden-phone">
+	<h1 style="font-size: 1.2em; padding: 0.05em 0;" class="center">
+		<% @section.sort_by(&:section_number).each do |section| %>
+		<%= section.section_title if request.path_info.include? "#{section.id}" %>
+		<% end %>
+	</h1>
+</div>  
+
+
+
+<div class="dropdown visible-phone" style="margin-top: -0.8em;">
+	<button class="btn btn-primary btn-block dropdown-toggle" id="menu1" type="button" data-toggle="dropdown" style="padding: 9px 0;">Sections &nbsp; 
+	<span class="caret"></span></button>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+		<li role="presentation" class="<%= active "cover" %>">
+			<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/cover">Cover</a>
+		</li>
+		<% @section.sort_by(&:section_number).each do |section| %>
+		<li role="presentation" class="<%= active "#{section.id}" %>">
+			<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/<%= section.id %>/chapters"><%= section.section_title %></a>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<div class="visible-phone">
+	<h1 style="font-size: 1.5em; padding: 0.05em 0;">
+		<% @section.sort_by(&:section_number).each do |section| %>
+		<%= section.section_title if request.path_info.include? "#{section.id}" %>
+		<% end %>
+	</h1>
+</div>  
+
+
+

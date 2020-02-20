@@ -1,0 +1,28 @@
+<div class="row">
+	<div class="span3 affix">
+		<div class="well" style="margin: 0 0 1em 0; padding: 0; background: #ffffff;">
+			<nav class="chapter-nav">	<ul class="nav nav-list">
+					<% @section.sort_by(&:section_number).each do |section| %>
+					<li class="<%= active "#{section.id}" %>">
+						<a href="/manuals/<%= @manual.id %>/sections/<%= section.id %>/chapters/<%= @chapter.id %>" class="list-nav" style="padding: 5px 6px 6px 14px;font-family: 'Oswald', sans-serif;font-weight: 400;"> <%= section.section_number %> &nbsp; <%= section.section_title %> <i class="icon-chevron-right pull-right icon-gray  <%= 'icon-white' if request.path_info.include? "#{section.id}" %>"></i></a>
+					</li>
+					<% end %>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+	<div class="span9 offset3">
+		<h3 class="oswald" style="color: #1c89de; margin: 0.9em 0 0.5em 0;">Study Program Guide prepared for <%= @user.name %></h3>
+		<h1 style="font-size: 2.5em;"><%= @manual.name %></h1>
+		<hr />
+		
+		
+		
+		
+		
+	</div>
+
+</div>
+
+/manuals/:manual_id/sections/:section_id/chapters/:chapter_id

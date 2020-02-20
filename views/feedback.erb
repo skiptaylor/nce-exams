@@ -1,0 +1,80 @@
+<div class="row">
+	<div class="span12">
+		<div class="page-header visible-desktop">
+			<h1 class="oswald" style="font-size: 2.7em; margin: 0 0 0.5em 0;">Questions & Comments
+			<small>We'd love to hear what you have to say</small></h1>
+		</div>
+		
+	</div>
+</div>
+
+<form class="form-horizontal" action="?" method="post">
+	
+	<div class="control-group" id="name-group">
+		<label class="control-label" for="name">Name</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" id="name" name="name" />
+		</div>
+	</div>
+	
+	<div class="control-group" id="email_name" style="margin-left: -1017px;">
+		<label class="control-label" for="email">Email name</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" id="email_name" name="email_name" />
+		</div>
+	</div>
+	
+	<div class="control-group" id="email-group" style="margin-top: -48px;">
+		<label class="control-label" for="email">Email address</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" id="email" name="email" />
+		</div>
+	</div>
+
+	<div class="control-group" id="subject-group">
+		<label class="control-label" for="subject">Subject</label>
+		<div class="controls">
+			<select id="subject" name="subject">
+				<option value="Counselor Exams feedback: I have a question">I have a question</option>
+				<!-- <option value="Counselor Exams feedback: Help, I'm stuck!">Help, I'm stuck!</option> -->
+				<option value="Counselor Exams feedback: I have a comment">I have a comment</option>
+				<option value="Counselor Exams feedback: Testimonial">Testimonial</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="control-group" id="msg-group">
+		<label class="control-label" for="msg">Message</label>
+		<div class="controls">
+			<textarea name="msg" id="msg" class="input-xlarge span6" rows="11"></textarea>
+		</div>
+	</div>
+				
+	<div class="control-group">
+		<div class="controls">
+			
+			<div class="g-recaptcha" data-sitekey="6LcyuH4UAAAAABcwCPkphzRTPScMJkjXw-XJlR_r" data-callback="enableBtn"></div>
+			<br />
+			
+			<input type="submit" id="submit" class="btn btn-primary" value="Submit" />
+			
+		</div>
+		
+	</div>
+	
+</form>
+
+<script>
+	document.getElementById("submit").disabled = true;
+	function enableBtn(){
+		document.getElementById("submit").disabled = false;
+	}
+</script>
+	
+<script>
+	document.ready(function() {
+ 		$("eform").submit(function() {
+			$("#email_name").val('');
+		});
+	});
+</script>

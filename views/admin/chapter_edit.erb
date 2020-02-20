@@ -1,0 +1,56 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li>Manuals <span class="divider">/</span></li>
+			<li class="active">Chapters</li>
+		</ul> -->
+		
+		<h1><%= @manual.name %> - <%= @section.section_title %> - Chapter</h1>
+		<hr />
+
+			<form class="form-horizontal" method="post">
+				<fieldset>
+					<div class="control-group">
+						<label class="control-label" for="chapter_number">Number</label>
+						<div class="controls">
+							<input type="text" name="chapter_number" id="chapter_number" class="span2" value="<%= @chapter.chapter_number %>" />
+						</div>
+					</div>
+					<p class="center"><small>Use either <strong>Chapter Title</strong> or <strong>Sub-Chapter Title</strong>. Do not use both.</small></p>
+					<div class="control-group">
+						<label class="control-label" for="chapter_title">Chapter Title</label>
+						<div class="controls">
+							<input type="text" name="chapter_title" id="chapter_title" class="span7" value="<%= @chapter.chapter_title %>" /> 
+						</div>
+						
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="sub_chapter_title">Sub-Chapter Title</label>
+						<div class="controls">
+							<input type="text" name="sub_chapter_title" id="sub_chapter_title" class="span7" value="<%= @chapter.sub_chapter_title %>" />
+						</div>
+					</div>
+					<div class="control">
+						
+						<div>
+							<textarea class="span9" type="text" name="body" id="body" rows="34"><%= @chapter.body %></textarea>
+						</div>
+					</div>
+					<br />
+						
+						<div class="control pull-right">
+							<input class="btn btn-small btn-primary" type="submit" value="Save" /> &nbsp; <a class="btn btn-small" href="/admin/manuals/<%= @manual.id %>/sections/<%= @section.id %>/chapters/<%= @chapter.id %>/view">Cancel</a> &nbsp; <a class="btn btn-small btn-danger delete" href="/admin/manuals/<%= @manual.id %>/sections/<%= @section.id %>/chapters/<%= @chapter.id %>/delete">Delete</a>
+						</div>
+					
+
+				</fieldset>
+			</form>
+	</div>
+
+</div>

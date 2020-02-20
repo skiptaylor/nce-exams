@@ -1,0 +1,70 @@
+<fieldset>
+	<legend><span class="oswald" style="padding: 0 9px 0 7px;">1</span> Program Package Options <small style="color: white;"> &nbsp; (Choose one)</small></legend>
+	
+	<div class="row">	
+		<div class="span6 content">
+			
+			<label class="radio package-name">
+				<input style="font-size: 1.2em;"name="package" type="radio" id="basic-package" value="Basic Package" data-price='199' <%= 'checked="checked"' if params[:package] == 'Basic Package' %> /> &nbsp;<span style="font-size: 1.8em;" class="oswald">Basic Package $199</span>
+			</label>
+			<p>
+				<ul class="package-features">
+					<li><strong>Online Pre-Assessment Exam</strong></li>
+					<li><strong>1 Online Practice Exams</strong></li>
+					<li>Study Guide Online</li>
+					<li>Virtual Flash Cards</li>
+					<li>Phone consultation directly with Dr. Gary Arthur</li>
+					<li>Money Back Pass Guarantee</li>
+					<li>3-day Satisfaction Guarantee</li>
+					<li>Online account active for one year</li>
+				</ul>
+				<small>(2 additional online practice exams can be purchased later for $60.)</small>
+			</p>
+				
+		</div>			
+	
+		<div class="span6 content">
+				
+			<label class="radio package-name">
+				<input style="font-size: 1.2em;"name="package" type="radio" id="enhanced-package" value="Enhanced Package" data-price='239' <%= 'checked="checked"' if params[:package] == 'Enhanced Package' %> /> &nbsp;<span style="font-size: 1.8em;" class="oswald">Enhanced Package $239</span>&nbsp; &nbsp; <span style="font-size: 1.6em; color: #bc272e;" class="oswald">Save $20!</span>
+			</label>
+			<p>
+				<ul class="package-features">
+					<li><strong>Online Pre-Assessment Exam</strong></li>
+					<li><strong>3 Online Practice Exams</strong></li>
+					<li>Study Guide Online</li>
+					<li>Virtual Flash Cards</li>
+					<li>Phone consultation directly with Dr. Gary Arthur</li>
+					<li>Money Back Pass Guarantee</li>
+					<li>3-day Satisfaction Guarantee</li>
+					<li>Online account active for one year</li>
+				</ul>
+			</p>
+		</div>
+	</div>	<!-- row -->
+	<div class="row">
+		
+		<div class="span12">
+			<hr style="margin: 1em 0; border-color: black" />
+			<p>
+				<h3 class="option-header" style="font-weight: 900;">Optional Enhancements <span style="font-weight: 400;">(for either package)</span></h3>
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="span12">		
+			<p style="margin: 1em 0 0 0;">
+				<label class="checkbox">
+					<input style="font-size: 2em;" type="checkbox" type="checkbox" name="optional" value="Hard Copy" id="nce-hard-copy" data-price='57.45' <%= 'checked="checked"' if params[:optional] %> /> &nbsp; <span style="font-size: 1.8em;" class="oswald">Study Guide Hard Copy $57.45</span>
+				</label>	
+					
+				<ul class="package-features">
+					<li>Same study guide as the eBook</li>
+					<li>Includes shipping and handling.</li>
+				</ul>
+						<small style="color: black;"><strong>Note:</strong> If you require shipment to a PO Box please call toll free 888-326-9229 for details.</small>
+			</p>
+		</div>
+	</div>
+	
+</fieldset>

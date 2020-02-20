@@ -1,0 +1,97 @@
+<fieldset id="credit_card">
+	<legend><span class="oswald" style="padding: 0 9px 0 7px;">3</span> Credit card/shipping</legend>
+	
+	<div class="control-group" id="card-number-group" style="display: inline-block; margin: 0;">
+		<label class="control-label">Card number</label>
+		<div class="controls">
+			<input type="text" autocomplete="off" class="input-xlarge card-number span2">
+			<span class="help-inline" id="invalid_number" style="display: none;">The card number is invalid.</span>
+			<span class="help-inline" id="incorrect_number" style="display: none;">The card number is incorrect.</span>
+		</div>
+	</div>
+	<div class="control-group" id="card-cvc-group" style="display: inline-block; margin-left: 0.2em;">
+	
+	
+	
+		<label class="control-label">CVC 
+			<!-- <a href="#" rel="popover" class="bottom" data-placement="bottom" title="Location of CVC on credit card" data-content="<img src='/img/cvc.jpg'>">
+				<span class="badge" style="padding: 3px 8px;">?</span>
+			</a> -->
+		</label>
+		
+		
+		<div class="controls">
+			<input type="text" size="4" autocomplete="off" class="span1 card-cvc">
+			<span class="help-inline" id="invalid_cvc" style="display: none;">The card's security code is invalid.</span>
+			<span class="help-inline" id="incorrect_cvc" style="display: none;">The card's security code is incorrect.</span>
+		</div>
+	</div>
+	<div class="control-group" id="card-expiry-group" style="display: inline-block; margin-left: 0.2em;">
+		<label class="control-label">Expiration</label>
+		<div class="controls">
+			<select class="span1 card-expiry-month">
+				<option value="01">01</option>
+				<option value="02">02</option>
+				<option value="03">03</option>
+				<option value="04">04</option>
+				<option value="05">05</option>
+				<option value="06">06</option>
+				<option value="07">07</option>
+				<option value="08">08</option>
+				<option value="09">09</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+			</select>
+			/
+			<select class="span1 card-expiry-year">
+			<% (Chronic.parse('now').strftime('%Y').to_i..Chronic.parse('15 years from now').strftime('%Y').to_i).each do |y| %>
+				<option value="<%= y %>"><%= y %></option>
+			<% end %>
+			</select>
+			<span class="help-inline" id="invalid_expiry_month" style="display: none;">The card's expiration month is invalid.</span>
+			<span class="help-inline" id="invalid_expiry_year" style="display: none;">The card's expiration year is invalid.</span>
+		</div>
+	</div>
+	<div class="control-group" style="margin: 0;">
+		<label class="control-label" for="address1">Address 1</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" id="address1" name="address1" />
+		</div>
+	</div>
+	<div class="control-group" style="margin: 0;">
+		<label class="control-label" for="address2">Address 2</label>
+		<div class="controls">
+			<input type="text" class="input-xlarge" id="address2" name="address2" />
+		</div>
+	</div>	
+	<div class="control-group" style="margin: 0;">
+		<label class="control-label" for="city">City, State Zip</label>
+		<div class="controls">
+			<input type="text" class="span2" id="city" name="city" />
+			<select type="text" name="state" class="span1" id="state">
+				<option>  </option>
+				<% State.all(:order => :name).each do |state| %>
+				<option value="<%= state.abbr %>"><%= state.abbr %></option>
+				<% end %>
+			</select>
+			<input type="text" class="span1" id="zip" name="zip" />
+			<span class="help-inline" id="tax">+ sales tax in GA.</span>
+		</div>
+		<!-- <p style="clear: both;"><small style="color: black;"><strong>Note:</strong> If you require shipment to a PO Box please call toll free 888-326-9229.</small></p> -->
+	</div>
+</fieldset>
+
+
+
+
+<div class="control-group" id="generic-card-group">
+	<div class="controls">
+		<span class="help-inline" id="expired_card" style="display: none;">The card has expired.</span>
+		<span class="help-inline" id="invalid_amount" style="display: none;">An invalid amount was entered.</span>
+		<span class="help-inline" id="card_declined" style="display: none;">The card was declined.</span>
+		<span class="help-inline" id="missing" style="display: none;">There is no card on a customer that is being charged.</span>
+		<span class="help-inline" id="duplicate_transaction" style="display: none;">A transaction with identical amount and credit card information was submitted very recently.</span>
+		<span class="help-inline" id="processing_error" style="display: none;">An error occurred while processing the card.</span>
+	</div>
+</div>

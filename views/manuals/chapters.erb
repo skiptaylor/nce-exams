@@ -1,0 +1,143 @@
+<style>
+	#phone-nav a:hover, #phone-nav a:focus {
+	     color: #a31521;
+	 }
+</style>
+
+<div class="row">
+	<div class="span4 affix hidden-phone">
+		<%= erb :'manuals/nav', layout: false %>
+		<div class="menu">
+			<p class="oswald center" style="background-color: #868686; color: white; margin: 0.2em 0 0 0; font-size: 0.8em;">CHAPTERS</p>
+			<div onmouseover="document.body.style.overflow='hidden';"  onmouseout="document.body.style.overflow='auto';" id="menu-center" style="height: calc(100vh - 210px); overflow-y: scroll; border: 1px solid #dbdbdb; display: flex;">
+				<ul class="nav nav-stacked" style="padding: 4px 0 0 0;">
+					<% @chapter.sort_by(&:chapter_number).each do |chapter| %>
+					<% if chapter.chapter_title != "" %>
+					<li>
+						<a href="#<%= chapter.id %>"><%= chapter.chapter_title %></a>
+					<% elsif chapter.sub_chapter_title != "" %>
+							<ul class="nav">
+								<li>
+									<a href="#<%= chapter.id %>"><%= chapter.sub_chapter_title %></a>
+								</li>
+							</ul>
+					<% end %>
+					</li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+	 <br />
+	</div>
+
+	<div class="span8 offset4 hidden-phone">
+		<h4 class="oswald" style="color: #1c89de; font-weight: 400;">Study Program Guide prepared for <%= @user.name %></h4>
+		<h1 style="font-size: 2.5em;"><%= @manual.name %></h1>
+		<hr />
+		<% @chapter.sort_by(&:chapter_number).each do |chapter| %>
+		<div id="<%= chapter.id %>" class="md">
+			<% if chapter.chapter_title != "" %>
+			<a name="<%= chapter.id %>" style="color: #244883; text-decoration: none;"><h1 style="font-size: 2em; margin: 1em 0 0.6em 0;"><%= chapter.chapter_title %></h1></a>
+			<% elsif chapter.sub_chapter_title != "" %>
+			<a name="<%= chapter.id %>" style="color: #244883; text-decoration: none;"><h2 style="padding-top: 0.1em; font-size: 1.6em; line-height: 1.2em;"><%= chapter.sub_chapter_title %></h2></a>
+			<% end %>	
+			<%= markdown chapter.body %>
+		</div>
+		<% end %>
+	</div>
+	
+	
+		
+	<div class="span12 visible-phone">
+		<%= erb :'manuals/nav', layout: false %>
+		
+		<ul style=" margin: 1em 0 0 0;" id="phone-nav">
+			
+			<% @chapter.sort_by(&:chapter_number).each do |chapter| %>
+				<% if chapter.chapter_title != "" %>
+				<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/<%= params[:section_id] %>/chapters/<%= chapter.id %>/chapter" style="text-decoration: none;">
+				<li role="presentation" class="<%= active "#{chapter.id}" %>" style="list-style: none; display: block; padding: 9px 0; border-top: 1px solid silver;">
+					<span style="font-weight: 600;"><%= chapter.chapter_title %>
+				</li>
+				</a>
+				<% elsif chapter.sub_chapter_title != "" %>
+				<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/<%= params[:section_id] %>/chapters/<%= chapter.id %>/chapter" style="text-decoration: none;">
+				<li role="presentation" class="<%= active "#{chapter.id}" %>" style="list-style: none; display: block; margin-left: 1.5em; padding: 9px 0; border-top: 1px solid silver;">
+					<%= chapter.sub_chapter_title %>
+				</li>
+				</a>
+				<% end %>
+			<% end %>
+			<hr style="margin: 0;" />
+			<p> &nbsp; </p>
+		</ul>		
+	</div>	
+			
+	
+	<!-- <div class="span12 visible-phone">
+		<%= erb :'manuals/nav', layout: false %>
+		<div class="dropdown affix" style="margin-top: -4.3em; margin-left: 7.4em; display: block;">
+			<button class="btn btn-primary dropdown-toggle" id="menu1" type="button" data-toggle="dropdown" style="padding: 12px 15px 9px 15px;">Chapters
+			<span class="caret"></span></button>
+			<ul class="dropdown-menu" role="menu" aria-labelledby="menu1" style="margin-left: -7.4em;">
+				<% @chapter.sort_by(&:chapter_number).each do |chapter| %>
+					<% if chapter.chapter_title != "" %>
+					<li role="presentation" class="<%= active "#{chapter.id}" %>">
+						<a role="menuitem" tabindex="-1" href="/manuals/<%= @manual.id %>/sections/<%= params[:section_id] %>/chapters/<%= chapter.id %>/chapter"><%= chapter.chapter_title %></a>
+					</li>
+					<% end %>
+				<% end %>
+			</ul>
+		</div>
+	</div> -->
+</div>
+
+
+
+
+
+
+
+<script>
+	$(document).ready(function () {
+	    $(document).on("scroll", onScroll);
+    
+	    //smoothscroll
+	    $('a[href^="#"]').on('click', function (e) {
+			   
+	        e.preventDefault();
+	        $(document).off("scroll");
+        
+	        $('a').each(function () {
+	            $(this).removeClass('active');
+	        })
+	        $(this).addClass('active');
+      
+	        var target = this.hash,
+	            menu = target;
+	        $target = $(target);
+	        $('html, body').stop().animate({
+	            'scrollTop': $target.offset().top-58
+	        }, 500, 'swing', function () {
+	            window.location.hash = target.off;
+	            $(document).on("scroll", onScroll);
+	        });
+	    });
+	});
+
+	function onScroll(event){
+	    var scrollPos = $(document).scrollTop();
+	    $('#menu-center a').each(function () {
+	        var currLink = $(this);
+	        var refElement = $(currLink.attr("href"));
+	        if (refElement.position().top-100 <= scrollPos && refElement.position().top + refElement.height() > scrollPos) {
+	            $('#menu-center ul li a').removeClass("active");
+	            currLink.addClass("active");
+	        }
+	        else{
+	            currLink.removeClass("active");
+	        }
+	    });
+	}
+</script>
+

@@ -1,0 +1,100 @@
+<%= erb :'how-it-works/nav', layout: false %>
+
+<h2>NCE Exams</h2>
+		
+<ul class="nav nav-pills" id="myTab">
+		  <li class="active"><a href="#exams" data-toggle="pill">Step 1</a></li>
+		  <li><a href="#exam-page" data-toggle="pill">Step 2</a></li>
+		  <li><a href="#nav" data-toggle="pill">Step 3</a></li>
+		  <li><a href="#score" data-toggle="pill">Step 4</a></li>
+	</ul>
+
+  		
+		<div class="tab-content">
+			<div class="tab-pane active" id="exams">
+			  
+			  <div class="row">
+		  			<div class="span8">
+		  				<img src="/img/how-it-works/exams/exam.png" class="white-well" />
+		  			</div>
+		  			<div class="span4">
+		  			<br />
+			  			<h3>Select Exam</h3>
+			  			<p>If you purchased a NCE package you get access on your Profile page.</p>
+			  			<p>You can choose an exam to get started or choose to review an exam already begun.</p>
+			  			
+			  			<p>If you purchased the NCE Basic package you can buy 2 more online exams. If you purchased the ebook you can buy the hard copy.</p>
+						<h3>Downloads</h3>
+						<p>In the Downloads section you can choose to study online or download PDF of the study guide.</p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+		  
+		  <div class="tab-pane" id="exam-page">
+			  
+			  <div class="row">
+		  			<div class="span8">
+		  				<img src="/img/how-it-works/exams/exam-5.png" class="white-well" />
+		  			</div>
+		  			<div class="span4">
+		  			<br />
+			  			<h3>Take Exam</h3>
+			  			<p>For each question select only one answer. For convenience, the question no longer appears in bold when an answer has been selected.</p>
+			  			<p>Move to the next question until you have completed an entire page of 20 questions.</p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+		  
+		  <div class="tab-pane" id="nav">
+			  
+			  <div class="row">
+		  			<div class="span8">
+		  				<img src="/img/how-it-works/exams/page-bar.png" />
+		  			</div>
+		  			<div class="span4">
+		  			<br />
+			  			<h3>Page Navigation</h3>
+			  			<p>When you have completed a page use the page navigation to go to the next page.</p>
+			  			<p>You can leave the page or the exam at any time and return later to finish. Your completed question will be remembered.</p>
+			  			<p>Once you finish the exam choose 'Show Score' to see you score.</p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+		  
+		  <div class="tab-pane" id="score">
+			  
+			  <div class="row">
+		  			<div class="span8">
+		  				<img src="/img/how-it-works/exams/score-page.png" class="white-well" />
+		  			</div>
+		  			<div class="span4">
+		  			<br />
+			  			<h3>Score Page</h3>
+			  			<p>The score page displays your score and gives you feedback in all 8 areas.</p>
+			  			<p>You will see the answers you chose and whether they are correct or incorrect.</p>
+			  			<p>You may take each exam as many time as you wish by selecting 'Start Over'. Remember this resets you current score but gives you a new score upon completion. You may wish to write down your score before retaking to track your improvement.
+ </p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+
+
+
+
+
+		  		  		  
+	</div>
+<br />
+
+
+ 
+<script>
+  $(function () {
+    $('#myTab a:first').tab('show');
+  })
+</script>
+

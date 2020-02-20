@@ -1,0 +1,102 @@
+
+<div class="row">	
+	<div class="span8 offset2">
+		
+		<div class="page-header visible-desktop">
+			<h1 class="oswald" style="font-size: 2.7em; margin: 1em 0 0.5em 0;">Sign In</h1>
+		</div>
+		<div class="page-header visible-tablet">
+			<h1 class="oswald" style="font-size: 2.7em; margin: -40px 0 12px 0;">Sign In</h1>
+		</div>
+		<div class="page-header visible-phone">
+			<h1 class="oswald" style="font-size: 2em; margin: -60px 0 6px 0;">Sign In</h1>
+		</div>
+		<br class="hidden-phone" />
+		
+		<form class="form-horizontal" id="sign-in-form" name="sign-in-form" method="post" action="/sign-in">
+			
+			<div class="control-group" id="email-group">
+				<label class="control-label" type="email">Email</label>
+				<div class="controls">
+					<input type="email" class="span4" style="padding: 9px;" id="email" name="email" value="<%= params[:email] %>">
+				</div>
+			</div>
+						
+			<div class="control-group" id="password-group">
+				<label class="control-label" for="password">Password</label>
+				<div class="controls">
+					<input type="password" class="span4" style="padding: 9px;" id="password" name="password" value="<%= params[:password] %>" autocomplete="off">
+					<br />
+					<p style="padding-top:1em;"><small><strong>Forget your password?</strong> <br />Fill in your account email address and we will email you a link to reset your password.<br /><a href="#" id="reset-password" class="btn btn-mini" style="margin-top: 12px;">Reset my password</a></small></p>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="controls">
+					<label class="checkbox">
+						<input type="checkbox" name="tos" id="tos" onclick="createCookie('agree', 'agreeto', 365)" /> I agree to the <a href="/terms-of-service">Terms of Service</a>.
+					</label>
+				</div>
+			</div>
+			
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-large btn-success" id="sign-in-btn" value="Sign in" />
+				</div>
+			</div>
+			<br />
+			
+			<div class="control-group hidden-phone hidden-tablet">
+				<div class="controls">
+					<p class="well"><small>If you are unable to sign in to your account using Internet Explorer, try another web browser such as <a href="https://www.google.com/intl/en/chrome/browser">Google Chrome</a> or <a href="http://mozilla-firefox.todownload.com">Mozilla Firefox</a>.</small></p>
+				</div>
+			</div>
+			<br />
+
+		</form>
+		<!-- <a href="javascript:alert(document.cookie);">View the cookie</a> -->
+		
+		
+	</div>
+</div>
+
+<script language="JavaScript" type="text/javascript"
+	xml:space="preserve">
+	var frmvalidator  = new Validator("sign-in-form");
+	frmvalidator.addValidation("tos","shouldselchk=on","Please agree to the Terms of Service.");
+</script>
+
+<script language="JavaScript" type="text/javascript">
+	function createCookie(name,value,days) {
+		if (days) {
+			var date = new Date();
+			date.setTime(date.getTime()+(days*24*60*60*1000));
+			var expires = "; expires="+date.toGMTString();
+		}
+		else var expires = "";
+		document.cookie = name+"="+value+expires+"; path=/";
+	}
+
+	function readCookie(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	}
+
+	function eraseCookie(name) {
+		createCookie(name,"",-1);
+	}
+	
+	$(document).ready(function() {
+		var x = readCookie('agree');
+			if (x) {
+				$(tos).prop('checked', true);
+			}
+	});
+	
+</script>

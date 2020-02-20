@@ -1,0 +1,30 @@
+<div class="container">
+
+	<div class="page-header">
+		<h1>
+			<%= @user.name %>
+		</h1>
+	</div>
+
+	<div class="row">
+
+		<div class="span12">
+			<h3>
+				You have passed NCMHCE CEU Scenario 38.
+			</h3>
+			<p>Please review your account information and submit to receive your certificate.</p>
+			<br />
+				<address>
+				  <strong><%= @user.name %></strong><br>
+				  <%= @user.email %><br>
+				  <%= @user.phone %><br><br>
+				  <% if @user.license %><strong>License:</strong> <%= @user.license %></small><% end %>
+				</address>
+				
+				
+		</div>
+
+	</div>
+
+</div>
+

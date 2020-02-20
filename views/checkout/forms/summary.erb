@@ -1,0 +1,46 @@
+<style>
+	p	{
+		color: #063c4b; font-weight: 300; line-height: 1.7em;
+	}
+</style>
+
+<fieldset id="summary">
+	<legend class="summary"> &nbsp;  Summary</legend>
+		
+	<div class="row-fluid">
+		<div class="span6">
+			<p>
+				Program Package: &nbsp; <span style="font-weight: 700;" id="program-package-confirmation"></span><br />
+				Optional Enhancement: &nbsp; <span style="font-weight: 700;" id="optional-enhancements-confirmation"></span><br />
+				<!-- Optional Enhancement: &nbsp; <span style="font-weight: 700;" id="optional2-enhancements-confirmation"></span><br /> -->
+				Name: &nbsp; <span style="font-weight: 700;" id="name-confirmation"></span><br />
+				Email address: &nbsp; <span style="font-weight: 700;" id="email-confirmation"></span><br />
+				Password: &nbsp; <span style="font-weight: 700;" id="password-confirmation"></span>
+			</p>
+		</div>
+		
+		<div class="span6">
+			<p>
+				Card number: &nbsp; <span style="font-weight: 700;" id="card-number-confirmation"></span><br />
+				CVC: &nbsp; <span style="font-weight: 700;" id="cvc-confirmation"></span><br />
+				Expiration: &nbsp; <span style="font-weight: 700;" id="expiration-confirmation"></span>
+			</p>
+			<p>
+				Address:<span style="font-weight: 700; margin-left:1em;" id="address-confirmation"></span><br />
+				<span style="font-weight: 700; margin-left: 5em;" id="city-confirmation"></span> &nbsp;<span style="font-weight: 700;" id="state-confirmation"></span> &nbsp;<span style="font-weight: 700;" id="zip-confirmation"></span>
+			</p>
+			
+		</div>
+	</div>
+	
+	<div id="errors" class="err"></div>
+	
+	<p style="text-align: right; margin-right: 2em;">
+		<strong style="vertical-align: middle; font-size: 1.2em;">Total: $<span id='total-display'></span></strong>
+		&nbsp;&nbsp;
+		<input type="submit" class="btn btn-success btn-large submit-button" value="Checkout" style="font-weight: bold;" />
+	</p>
+	
+	<input type="hidden" id="amount" name="amount" value="0" />
+		
+</fieldset>

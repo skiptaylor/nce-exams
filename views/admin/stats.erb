@@ -1,0 +1,40 @@
+<div class="row">
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Stats</li>
+		</ul> -->
+			<h1 class="page-header">Stats</h1>
+		<table class="table">
+			<tr>
+				<th>Guide</th>
+				<th style="text-align: center;">Total Downloads<br /><small class="ceu-color">Grand Total</small></th>
+				<th style="text-align: center;">New Downloads<br /><small class="ceu-color">Since 11-15-2018</small></th>
+			</tr>
+			<% @stats.each do |stat| %>
+			<tr>
+				<td><%= stat.name %></td>
+				<td style="text-align: center;"><%= stat.content %></td>
+				<td class="ncmhce-color" style="text-align: center;">
+					<% if stat.name == 'NCE Study Guide pdf' %>
+					<%= stat.content - 4565 %>
+					<% elsif stat.name == 'NCE Study Guide mobi' %>
+					<%= stat.content - 1637 %>
+					<% elsif stat.name == 'NCE Study Guide epub' %>
+					<%= stat.content - 2247 %>
+					<% elsif stat.name == 'NCMHCE Study Supplement epub' %>
+					<%= stat.content - 9252 %>
+					<% elsif stat.name == 'NCMHCE Study Supplement mobi' %>
+					<%= stat.content - 6811 %>
+					<% else stat.name == 'NCMHCE Study Supplement pdf' %>
+					<%= stat.content - 19152 %>
+					<% end %>
+				</td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+</div>

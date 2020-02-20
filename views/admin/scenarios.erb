@@ -1,0 +1,47 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Scenarios</li>
+		</ul> -->
+
+		<table class="table table-condensed table-hover">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Title</th>
+					<th></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @scenarios.each do |scenario| %>
+				<tr>
+					<td><%= scenario.id %></td>
+					<td><%= scenario.title %></td>
+					<td>
+						<% if scenario.active? %>
+							<span class="label label-success">Active</span>
+						<% end %>
+						<% if scenario.workshop? %>
+							<span class="label label-info">Workshop</span>
+						<% end %>
+						
+						<% if scenario.practice? %>
+							<span class="label label-warning">Practice</span>
+						<% end %>
+					</td>
+					<td style="text-align: right;"><a href="/admin/scenarios/<%= scenario.id %>">Edit</a></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+
+	</div>
+
+</div>

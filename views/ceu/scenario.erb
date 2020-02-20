@@ -1,0 +1,374 @@
+<script src="/js/scenario.js"></script>
+
+<div class="container">
+
+<ul class="breadcrumb">
+	<li>NCMHCE CEU<span class="divider">/</span></li>
+	<li><a href="/ceu/scenarios">Scenarios</a> <span class="divider">/</span></li>
+	<li class="active"><%= @scenario.title %></li>
+</ul>
+
+
+<div class="page-header">
+	<h1><%= @scenario.id %>. <%= @scenario.title %></h1>
+</div>
+
+<% if @average %>
+<div class="well">
+	<div class="row">
+		<div class="span11">
+			<h3>
+				Your Score: <%= @average %>% &nbsp; <% unless @average < 70 %><span style="color: #009c23;">Congratulations! You Passed.</span><% end %>
+			</h3>
+			<!-- <%
+				style = 'bar-warning' if @average < 70
+				style = 'bar-success' if @average >= 70
+			%> -->
+			<div class="progress">
+				<div class="bar  <%= style %>" style="width: <%= @average %>%;"></div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- <div class="row">
+		<h3><%= erb :progressbar_ceu, layout: false, locals: { label: 'Information Gathering', correct: @breakdown['Information Gathering'][:correct], possible: @breakdown['Information Gathering'][:possible] } %></h3>
+		<h3><%= erb :progressbar_ceu, layout: false, locals: { offset: true, label: 'Decision Making', correct: @breakdown['Decision Making'][:correct], possible: @breakdown['Decision Making'][:possible] } %></h3>
+	</div> -->
+	
+	<% unless @average > 69 %>
+	<br />
+	<p style="color: #c70004;"><strong>You did not score the required minimum of 70%. The selections you made are shown below with the point value(s) associated with each selection. Once you are done reviewing your selections, click on the START OVER button to retake your CEU.</strong></p>
+	<br />
+	<% if session[:admin] %>
+	<a href="/ceu/scenarios/<%= params[:id] %>/restart" class="btn btn-primary restart">Start Over</a>
+	<% end %>
+	<br /><br />
+	<strong>
+		<span style="color: #666666; font-size: 90%;">Answers are highlighted as follows:</span> &nbsp;
+		<span class="badge" style="color: white; background-color: green;">Correct</span> &nbsp;
+		<span class="badge" style="color: white; background-color: red;">Incorrect</span> &nbsp;
+		<span class="badge" style="color: white; background-color: blue;">No Value</span> &nbsp;
+		<span class="badge" style="color: white; background-color: #777777;">Not Chosen</span>
+	</strong>
+	<% end %>
+</div>
+<% end %>
+
+<!---- end well ---->
+			
+<% if @average && @average > 69 %>
+
+<% @user = User.get session[:user] %>
+<div class="row">
+	<div class="span12">
+		<form method="post" id="/ceu/scenarios/:id/score/?">
+			<% @uses = Use.all(user_id: session[:user], scenario_id: params[:id]) %>	
+			<% @uses.each do |u| %>
+			<input type="checkbox" class="hidden" name="certificate" id="certificate" <%= 'checked' if u.certificate %> disabled/>
+			<% u.cert_date %>
+			<% unless u.cert_date %>
+			<h3>
+				<img src="/img/check.png" class="pull-left" style="margin: 0.3em 1em 1em 0;" />You have passed CEU Scenario <%= @scenario.id %>.
+			</h3>
+			<p style="margin-left: 3em;">You cannot retake this exam after getting a passing score.<br />Please review your account information below. If your account information is incorrect please call 888-326-9229.<br />Please complete short NBCC survey and submit to get your certificate.</p>
+			
+
+				<address style="margin-left: 6em;">
+					<strong><%= @user.name %></strong><br>
+					<%= @user.email %><br>
+					<% if @user.license %><strong>License:</strong> <%= @user.license %><% end %><br />
+				</address>
+	</div>	
+	<div class="span12" >	
+				<h3>Course Evaluation for the Arthur-Brende CEU Study Program &nbsp; <small>All fields required</small></h3>
+				<p><small>Sponsor: Career Training Concepts Inc. NBCC ACEP # xxxxxxxxxx</small></p>
+	</div>
+	<div class="span5" style="margin-top: 1em;">
+				<div class="control">
+					<label class="control-label" for="cert_name">Name to display on certificate</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge"  id="cert_name" name="cert_name" value="<%= u.cert_name %>">
+					</div>
+				</div>
+				<div class="control">
+					<label class="control-label" for="address1">Address 1</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="address1" name="address1" />
+					</div>
+				</div>
+				<div class="control">
+					<label class="control-label" for="address2">Address 2</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="address2" name="address2" />
+					</div>
+				</div>	
+				<div class="control">
+					<label class="control-label" for="city">City, State Zip</label>
+					<div class="controls">
+						<input type="text" class="span2" id="city" name="city" />,
+						<select type="text" name="state" class="span1" id="state">
+							<option>  </option>
+							<% State.all(:order => :name).each do |state| %>
+							<option value="<%= state.abbr %>"><%= state.abbr %></option>
+							<% end %>
+						</select>
+						<input type="text" class="span1" id="zip" name="zip" />
+					</div>
+				</div>
+				<div class="control">
+					<label class="control-label" for="">Completion Date</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="" name="" style="color: black;" value="<%= u.updated_at.display_short %>" disabled/>
+					</div>
+				</div>
+			</div>
+			<div class="span7" style="margin-top: 1em;">
+				<div class="control">
+					<label class="control-label" for="address1">What type of organization do you work for?</label>
+					<div class="controls">
+						<input type="text" style="width: 100%;" id="address1" name="address1" />
+					</div>
+				</div>
+				<div class="control">
+					<label class="control-label" for="address1">How did you become aware of this CEU program?</label>
+					<div class="controls">
+						<input type="text" style="width: 100%;" id="address1" name="address1" />
+					</div>
+				</div>
+				<div class="control">
+					<label class="control-label" for="address1">Do you feel this program met your expectations as a mental health professional? &nbsp; &nbsp; <br />
+						<label class="radio inline">
+						  <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+						  Yes
+						</label>
+						<label class="radio inline">
+						  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+						  No
+						</label>
+					</label>
+				</div>
+				<div class="control" style="margin-top: 12px;">
+					<label for="" class="control-label">Would you refer colleagues to this CEU Program? &nbsp; &nbsp; <br />
+						<label class="radio inline" >
+						  <input type="radio" name="optionsRadios2" id="optionsRadios3" value="option3" checked>
+						  Yes
+						</label>
+						<label class="radio inline">
+						  <input type="radio" name="optionsRadios2" id="optionsRadios3" value="option3">
+						  No
+						</label>
+					</label>
+				</div> 
+				<div class="control">
+					<label class="control-label" for="status">Please rate the overall score for this CEU &nbsp; &nbsp; 
+					
+						<select name="status" id="status" class="form-control" style="margin-top: 6px;">
+							<option value="Superior" <%= 'selected' if @user.hear_about_us == 'Superior' %>>Superior</option>
+							<option value="Above Average" <%= 'selected' if @user.hear_about_us == 'Above Average' %>>Above Average</option>
+							<option value="Average" <%= 'selected' if @user.hear_about_us == 'Average' %>>Average</option>
+							<option value="Below Average" <%= 'selected' if @user.hear_about_us == 'Below Average' %>>Below Average</option>
+							<option value="Drying" <%= 'Poor' if @user.hear_about_us == 'Poor' %>>Poor</option>
+						</select>
+					</label>
+				</div>				
+				<div class="control-group">
+					<label class="control-label" for="address1">Please explain your score:</label>
+					<div class="controls">
+						<input type="text" style="width: 100%;" id="address1" name="address1" />
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="address1"></label>
+					<div class="controls">
+						<input type="submit" class="btn btn-success" value="Submit for Certificate" /> &nbsp; <span style="color: red;"><strong>Dev note:</strong> This form does not submit data yet.</span>
+					</div>
+				</div>
+				
+			</div>
+		</form>
+					<% else u.cert_date %>
+	</div>
+	
+	
+	<div class="span12">
+	<h3>
+		<img src="/img/check.png" class="pull-left" style="margin: 0.1em 1em 1em 0;" />Your Certificate for CEU Scenario <%= @scenario.id %> was submitted on <%= u.cert_date.display_short %>.
+	</h3>
+	<!-- <p style="margin-left: 3em;">This certificte will be sent to the NBCC and you will receive 2 Continuing Education Units.<br />
+		<small>Allow 3 working days for information to be received by NBCC.</small></p> -->
+	<br />
+	<p style="margin-left: 3em;">
+		<a href="/ceu/scenarios/<%= @scenario.id %>/ceu-certificate" class="btn btn-large btn-success"><strong>View Certificate PDF</strong></a> &nbsp;&nbsp;&nbsp; <strong>You can download your PDF from the browser.</strong>
+	</p>
+	<br />
+	<div>
+		<% unless @scenario.references == nil %>
+		<hr />
+			<h2>Resources</h2><br />
+				<span class="reference">
+				<%= markdown @scenario.references %>
+				</span>
+			<br />
+		<% end %>
+	</div>
+	<br />
+	<!-- <div class="well certificate">
+		<img src="/img/ctc.png" class="pull-left" style="width: 150px;" />
+		<img src="/img/nbcc.png" class="pull-right" style="width: 240px;" />
+		<br /><br /><br /><br />
+	<h1 class="center oswald">Certificate of Completion</h1>
+	<h2 class="center"><strong><%= u.cert_name %> <%= @user.name %></strong></h2>
+	<p class="center">License/Credential Number: <strong><% if @user.license %><%= @user.license %><% end %></strong></p>
+		<p class="center"><strong>On <%= u.cert_date.display_short %> <%= @user.name %> successfully completed all requirements <br />of the Arthur-Brende CEU Study Program for CEU Scenario <%= @scenario.id %>.</strong></p>
+	<p class="center"><strong><%= @user.name %> is awarded 2 hours of Continuing Education Units (CEU)</strong></p><br />
+	<div class="row">
+		<div class="span3" style="margin-left: 6em;">
+			<span style="font-family: fantasy; font-size: 2em; color: #1c89de;">Gary Arthur</span><br />
+			<small>Gary L. Arthur, Ed., LPC, NCC<br />
+			License #: xxxxxxxxxx</small>
+		</div>
+		<div class="span3 pull-right">
+			<span style="font-family: fantasy; font-size: 2em; color: #1c89de;">Joel Brende</span><br />
+			<small>Joel O. Brende, M.D.<br />
+			License #: xxxxxxxxxx</small>
+		</div>
+	</div>
+
+	<hr />
+	<p class="center clearfix">NBCC-Approved Continuing Education Provider Number XXXXX</p>
+
+	<p class="center"><small>Career Training Concepts, Inc. &bull; 3640 Hewatt Court, Snellville, GA 30039<br />
+		Toll Free: 888-326-9229 &bull; Fax: 770-672-8099 &bull; www.counselorexams.com</small></p>
+	</div> -->
+</div>
+					<% end %>
+<% end %>
+	
+</div>
+
+</div>
+	
+<% elsif @average && @average < 70 %>	
+	
+<!------------ EXAM VIEW ------------>
+			<%= markdown @scenario.body %>
+			<hr />
+			<% @questions.each do |question| %>
+			<div class="question" id="question-<%= question.position %>" style="<%= hidden unless @average || question.position == 1 %>">
+				<p><strong><%= question.position %>. <%= question.body %></strong></p>
+				<% answers = @answers.find_all {|a| a.question_id == question.id } %>
+				<form>
+					
+					<% answers.each do |answer| %>
+					<% if @scores.include?(answer.id) %>
+						<%
+							if answer.value > 0
+								style = 'correct'
+							elsif answer.value < 0
+								style = 'incorrect'
+							elsif answer.value == 0
+								style = 'neutral'
+							else
+								style = ''
+							end
+						%>
+				<label class="checkbox <%= style if @average && @scores.include?(answer.id) %>">
+					<input type="checkbox" class="<%= 'required' if answer.required? %>" id="<%= answer.id %>" name="<%= answer.id %>" <%= 'checked' if @scores.include?(answer.id) %> <%= 'disabled' if @average || @scores.include?(answer.id) %>>
+					<% if @average %>
+						<strong>
+							<span class="badge"><%= '+' if answer.value > 0 %><%= answer.value %></span>
+						</strong>
+					<% end %>
+					<%= answer.body.sub /\w[.]/, '' %>
+				</label>
+				<blockquote style="<%= hidden unless @average || @scores.include?(answer.id) %>" class="<%= style if (@average && @scores.include?(answer.id)) || answer.required? %>" id="response-<%= answer.id %>">
+					<%= markdown answer.response %>
+				</blockquote>
+				<% end %>
+				<% end %>
+			</form>
+			<%= markdown question.notes if @average && question.notes %>
+		</div>
+		<hr style="border-width: 3px;" />
+		<% end %>
+	</div>
+</div>
+
+	<% else %>
+
+<div class="accordion">
+	<a class="btn btn-primary" style="margin-top: -8px;" data-toggle="collapse" href="#collapseOne">
+		<strong>CHART</strong>&nbsp;
+		<span style="margin-top: 10px;" class="caret"></span>
+	</a> &nbsp; &nbsp; <span style="color: gray;">Show and hide Chart</span>
+</div>
+<div id="collapseOne" class="collapse">
+	<div class="accordion-inner">
+		<%= markdown @scenario.body %>
+	</div>
+</div>
+
+	<hr />
+	
+<% @questions.each do |question| %>
+	<div class="question" id="question-<%= question.position %>" style="<%= hidden unless @average || question.position == 1 %>">
+		<p><strong><%= question.position %>. <%= question.body %></strong></p>
+		
+		<% answers = @answers.find_all {|a| a.question_id == question.id } %>
+
+		<form>
+			<% answers.each do |answer| %>
+				<%
+					if answer.value > 0
+						style = 'correct'
+					elsif answer.value < 0
+						style = 'incorrect'
+					elsif answer.value == 0
+						style = 'neutral'
+					else
+						style = ''
+					end
+				%>
+				
+				<label class="checkbox <%= style if @average && @scores.include?(answer.id) %>">
+					<input type="checkbox" class="<%= 'required' if answer.required? %>" id="<%= answer.id %>" name="<%= answer.id %>" <%= 'checked' if @scores.include?(answer.id) %> <%= 'disabled' if @average || @scores.include?(answer.id) %>>
+					<% if @average %>
+						<strong>
+							<span class="badge"><%= '+' if answer.value > 0 %><%= answer.value %></span>
+						</strong>
+					<% end %>
+					<%= answer.body.sub /\w[.]/, '' %>
+				</label>
+				<blockquote style="<%= hidden unless @average || @scores.include?(answer.id) %>" class="<%= style if (@average && @scores.include?(answer.id)) || answer.required? %>" id="response-<%= answer.id %>">
+					<%= markdown answer.response %>
+				</blockquote>
+			<% end %>
+		</form>
+		
+		<%= markdown question.notes if @average && question.notes %>
+		
+	</div>
+
+<% end %>
+
+<% unless @average %>
+<div class="pagination pagination-centered">
+	<p><small><strong>Questions:</strong></small></p>
+	<ul>
+		
+		<li class="active"><a class="question-link" href="#question1">1</a></li>
+		<% @questions.each do |question| %>
+			<% if question.position > 1 %>
+				<li class="disabled"><a class="question-link" href="#question<%= question.position %>"><%= question.position %></a></li>
+			<% end %>
+		<% end %>
+		<li class="disabled"><a href="/ceu/scenarios/<%= @scenario.id %>/score" id="score-link">Show Score</a></li>
+		
+	</ul>
+	<br /><br />
+</div>
+<% end %>
+
+<% end %>
+
+

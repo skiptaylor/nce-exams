@@ -1,0 +1,61 @@
+<%= erb :'how-it-works/nav', layout: false %>
+
+<h2>NCE Exam Areas</h2>
+		
+<ul class="nav nav-pills" id="myTab">
+		  <li class="active"><a href="#area" data-toggle="pill">Step 1</a></li>
+		  <li><a href="#test" data-toggle="pill">Step 2</a></li>
+	</ul>
+
+  		
+		<div class="tab-content">
+			<div class="tab-pane active" id="area">
+			  
+			  <div class="row">
+		  			<div class="span8">
+		  				<img src="/img/how-it-works/exams/area.png" class="white-well" />
+		  			</div>
+		  			<div class="span4">
+		  			<br />
+
+			  			<h3>NCE Exam Area</h3>
+			  			<p>The NCE Exams page lists your exams. You can choose to take an entire 200 question exam or you can concentrate on an individual area by selecting from the dropdown menu.</p>
+			  			<p>This is a study tool and will not affect your other scores.</p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+		  
+		  <div class="tab-pane" id="test">
+			  
+			  <div class="row">
+		  			<div class="span8">
+		  				<img src="/img/how-it-works/exams/area-exam.png" class="white-well" />
+		  			</div>
+		  			<div class="span4">
+		  			<br />
+			  			<h3>Scoring</h3>
+			  			<p>These questions relate only to the individual area you have selected. As you choose answers you get instant feedback. The answer you selected is designated by the selected button, the correct answer by a check mark, and any explanation is displayed below (not all questions have explanations).</p>
+			  		</div>
+		  		</div>
+		  		
+		  </div>
+		  
+
+
+
+
+
+
+		  		  		  
+	</div>
+<br />
+
+
+ 
+<script>
+  $(function () {
+    $('#myTab a:first').tab('show');
+  })
+</script>
+

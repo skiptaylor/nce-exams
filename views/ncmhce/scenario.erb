@@ -1,0 +1,144 @@
+<script src="/js/scenario.js"></script>
+	
+<div class="container">
+
+<!-- <ul class="breadcrumb hidden-phone">
+	<li>NCMHCE <span class="divider">/</span></li>
+	<li><a href="/ncmhce/scenarios">Scenarios</a> <span class="divider">/</span></li>
+	<li class="active"><%= @scenario.title %></li>
+</ul> -->
+
+<div class="page-header visible-desktop">
+	<h1><%= @scenario.id %>. <%= @scenario.title %></h1>
+</div>
+
+<div class="page-header visible-tablet" style="margin-top: -0px;">
+	<h1><%= @scenario.id %>. <%= @scenario.title %></h1>
+</div>
+
+<div class="page-header visible-phone" style="margin-top: -10px;">
+	<h1><%= @scenario.id %>. <%= @scenario.title %></h1>
+</div>
+
+<% if @average %>
+	<div class="well" style="border-color: #1c87dd; background-color: #eef7ff; border-top-width: 3px;  border-bottom-width: 3px;">
+		<!-- <div class="row">
+			<div class="span11">
+				<h3>
+					Your Score: <%= @average %>% &nbsp;
+				</h3>
+				<%
+					style = 'progress'
+					style = 'progress' if @average > 60
+					style = 'progress' if @average > 80
+				%>
+				<div class="progress <%= style %>">
+					<div class="bar" style="width: <%= @average %>%;"></div>
+				</div>
+			</div>
+		</div> -->
+			
+		
+		<div class="row">
+			<h3><%= erb :progressbar, layout: false, locals: { label: 'Information Gathering', correct: @breakdown['Information Gathering'][:correct], possible: @breakdown['Information Gathering'][:possible] } %></h3>			
+			<h3><%= erb :progressbar, layout: false, locals: { offset: true, label: 'Decision Making', correct: @breakdown['Decision Making'][:correct], possible: @breakdown['Decision Making'][:possible] } %></h3>
+		</div>
+		
+		
+		
+		<a href="/ncmhce/scenarios/<%= params[:id] %>/restart" class="btn btn-primary restart">Start Over</a> &nbsp; <a href="/ncmhce/scenarios" class="btn btn-primary">New Scenario</a>
+		<br /><br />
+		<strong>
+			<span style="color: #666666; font-size: 90%;">Answers are highlighted as follows:</span> &nbsp;
+			<span class="badge" style="color: white; background-color: green;">Correct</span> &nbsp;
+			<span class="badge" style="color: white; background-color: red;">Incorrect</span> &nbsp;
+			<span class="badge" style="color: white; background-color: blue;">No Value</span> &nbsp;
+			<span class="badge" style="color: white; background-color: #777777;">Not Chosen</span>
+		</strong>
+	</div>
+	
+	
+	
+<% end %>
+
+<div class="accordion" style="margin: 6px 0;">
+	<a class="btn btn-primary" style="margin-top: -6px;" data-toggle="collapse" href="#collapseOne">
+		<strong>CHART</strong>&nbsp;
+		<span style="margin-top: 10px;" class="caret"></span>
+	</a> &nbsp; &nbsp; <span style="color: gray;">Show and hide Chart</span>
+</div>
+<div id="collapseOne" class="collapse in">
+	<div class="accordion-inner">
+		<%= markdown @scenario.body %>
+	</div>
+</div>
+
+	<br />
+	
+<% @questions.each do |question| %>
+	<div class="question" id="question-<%= question.position %>" style="<%= hidden unless @average || question.position == 1 %>">
+		
+		<p><strong><%= question.position %>. <%= question.body %></strong></p>
+		
+		<% answers = @answers.find_all {|a| a.question_id == question.id } %>
+
+		<form>
+			<% answers.each do |answer| %>
+				<%
+					if answer.value > 0
+						style = 'correct'
+					elsif answer.value < 0
+						style = 'incorrect'
+					elsif answer.value == 0
+						style = 'neutral'
+					else
+						style = ''
+					end
+				%>
+				
+				<label class="checkbox <%= style if @average && @scores.include?(answer.id) %>">
+					<input style="font-size: 1.1em;" type="checkbox" class="<%= 'required' if answer.required? %>" id="<%= answer.id %>" name="<%= answer.id %>" <%= 'checked' if @scores.include?(answer.id) %> <%= 'disabled' if @average || @scores.include?(answer.id) %>>
+					<% if @average %>
+						<strong>
+							<span class="badge"><%= '+' if answer.value > 0 %><%= answer.value %></span>
+						</strong>
+					<% end %>
+					<span style="font-size: 1.1em;"><%= answer.body.sub /\w[.]/, '' %></span>
+				</label>
+				<blockquote style="<%= hidden unless @average || @scores.include?(answer.id) %>" class="<%= style if (@average && @scores.include?(answer.id)) || answer.required? %>" id="response-<%= answer.id %>">
+					<%= markdown answer.response %>
+				</blockquote>
+			<% end %>
+		</form>
+		
+		<%= markdown question.notes if @average && question.notes %>
+		
+		
+		<hr />
+	</div>
+
+<% end %>
+
+<% unless @average %>
+	
+<div class="pagination pagination-centered">
+	<p><small><strong>Questions:</strong></small></p>
+	<ul>
+		<li class="active"><a class="question-link" href="#question1">1</a></li>
+		<% @questions.each do |question| %>
+			<% if question.position > 1 %>
+				<li class="disabled"><a class="question-link" href="#question<%= question.position %>"><%= question.position %></a></li>
+			<% end %>
+		<% end %>
+		<li class="disabled"><a href="/ncmhce/scenarios/<%= @scenario.id %>/score" id="score-link">Show Score</a></li>
+	</ul>
+</div>
+		
+<% end %>
+
+<br />
+
+
+</div>
+
+<a href="#top" style="position: fixed; bottom:7%;right: 0;" class="visible-phone"><img src="/img/up-pointer-side.svg" /></a>

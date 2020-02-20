@@ -1,0 +1,67 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+
+	<div class="span9">
+		<ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li><a href="/admin/purchases">Purchases</a> <span class="divider">/</span></li>
+			<li class="active"><%= @purchase.id %></li>
+		</ul>
+
+		<p><strong>Amount:</strong> $<%= @purchase.amount %></p>
+		<p><strong>Items:</strong> <%= @purchase.package %> / <%= @purchase.options %> <% if @purchase.options2 %><% unless @purchase.options2 == '0' %> / +<%= @purchase.options2 %><% end %><% end %></p>
+		<p><strong>Stripe ID:</strong> <a href="https://manage.stripe.com/#payments/<%= @purchase.stripe_id %>" target="_blank"><%= @purchase.stripe_id %></a></p>
+		<p>
+			<strong>Shipping:</strong>
+			<br />
+			<%= @purchase.user.name %><br />
+			<%= @purchase.address1 %><br />
+			<%= @purchase.address2 + '<br />' unless @purchase.address2.strip.length == 0 %>
+			<%= @purchase.city %>, <%= @purchase.state %> <%= @purchase.zip %>
+		</p>
+
+		<form class="form-horizontal" method="post">
+			<legend>Shipping</legend>
+			<div class="control-group" id="shipped_on-group">
+				<label class="control-label" for="shipped_on">Shipped on</label>
+				<div class="controls">
+					<% if @purchase.shipped_on.nil? %>
+						<%= Date.new.to_fields 'shipped_on' %>
+					<% else %>
+						<%= @purchase.shipped_on.to_fields 'shipped_on' %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="control-group" id="received_on-group">
+				<label class="control-label" for="received_on">Received_on</label>
+				<div class="controls">
+					<% if @purchase.received_on.nil? %>
+						<%= Date.new.to_fields 'received_on' %>
+					<% else %>
+						<%= @purchase.received_on.to_fields 'received_on' %>
+					<% end %>
+				</div>
+			</div>
+
+			<div class="control-group" id="tracking_number-group">
+				<label class="control-label" for="tracking_number">Tracking number</label>
+				<div class="controls">
+					<input type="text" class="input-xlarge" id="tracking_number" name="tracking_number" value="<%= @purchase.tracking_number %>">
+				</div>
+			</div>
+
+			<div class="control-group">
+				<div class="controls">
+					<input type="submit" class="btn btn-primary" value="Save" /> &nbsp; <a href="<%= request.referrer %>" class="btn btn-default">Cancel</a>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+</div>

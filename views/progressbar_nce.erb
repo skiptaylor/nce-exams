@@ -1,0 +1,19 @@
+<%
+	offset ||= false
+
+	percent = ((correct.to_f/possible.to_f)*100)#.to_i
+	
+	style = 'progress'
+	style = 'progress' if percent > 60
+	style = 'progress' if percent > 80
+%>
+
+<div class="span5 <%= 'offset1' if offset == true %>">
+	<%= label %>:
+	
+	<%= correct %>/<%= possible %> points
+	
+	<div class="progress">
+		<div class="bar" style="width: <%= percent %>%; font-size: .9em;"><%= percent = ((correct.to_f/possible.to_f)*100).to_i %>%</div>
+	</div>
+</div>

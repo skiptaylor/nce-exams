@@ -1,0 +1,51 @@
+<script src="/js/nce-guide.js"></script>
+
+<ul class="breadcrumb">
+	<li>NCE <span class="divider">/</span></li>
+	<li><a href="/nce/exams">Exams</a> <span class="divider">/</span></li>
+	<li class="active"><%= @exam.title %> Study Guide</li>
+</ul>
+	
+<div class="page-header">
+	<h1>
+		<%= @exam.title %>
+		<small class="darker-gray"><%= params[:group] %></small>
+	</h1>
+	<p>This partial exam is a study tool and will not be scored. It focuses on the <strong><%= params[:group] %></strong> area of <%= @exam.title %> providing instant feedback to each question.</p>
+</div>
+
+<% @questions.each do |question| %>
+	<% notes = nil %>
+
+<%
+	answers = []
+	@answers.each {|a| answers << a if a.question_id == question.id}
+%>
+	
+	<div id="question-<%= question.id %>">
+		<p><strong><%= question.position %>. <%= question.body %></strong></p>
+	
+		<form>
+			<div class="row">
+				<% answers.each do |answer| %>
+					<% notes = answer.response if answer.required? %>
+					<div class="span12">
+						<label class="radio">
+							<%= '<i class="icon-ok" style="display: none;"></i>' if answer.required? %>
+							<input type="radio" name="<%= question.id %>" value="<%= answer.id %>" /> <%= answer.body %>
+						</label>
+					</div>
+				<% end %>
+			</div>
+		</form>
+		
+		<%= "<blockquote style='display: none;' class='notes'><p>#{notes}</p></blockquote>" if notes %>
+	</div>
+	
+	<hr />
+
+<% end %>
+
+<p style="text-align: center;">
+	<a href="<%= request.url %>" class="btn btn-primary btn-mini">Start Over</a> &nbsp; <a href="/nce/exams" class="btn btn-primary btn-mini">Exams</a>
+	</p>

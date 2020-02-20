@@ -1,0 +1,64 @@
+<div class="row">
+	
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+	
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">CEU Certificates</li>
+		</ul> -->
+		 <!-- &nbsp; &nbsp; <span style="color: red;"><strong>Dev note:</strong> search not yet working.</span>
+		<form class="form-search" method="get" action="/admin/certificates">
+			<div class="input-append">
+			<input type="text" class="input-xlarge search-query" name="search" value="<%= params[:search] %>" />
+			<button type="submit" style="border: 1px solid green;" class="btn btn-success ">Search</button>
+		</div>
+		</form> -->
+
+		<table class="table table-condensed table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>License</th>
+					<th>Email</th>
+					<th style="text-align:center;">Certificate</th>
+					<th style="text-align:center;">Date Issued</th>
+					
+				</tr>
+			</thead>
+			
+ 			<tbody>
+				<% @uses.sort{|a,b| b.cert_date <=> a.cert_date}.each do |use| %>
+				
+				<tr>
+					<td>
+						<a href="/admin/users/<%= use.user_id %>"><%= use.user.name %></a>
+					</td>
+					<td>	
+						<small><%= use.user.license %></small>
+					</td>
+					<td>
+						<small><%= use.user.email %></small>
+					</td>
+					<td style="text-align:center;"> 
+						CEU <strong><%= use.scenario_id %></strong>
+					</td>
+					<td style="text-align:center;">
+						<%= use.cert_date.display_short %>
+					</td>
+	
+				</tr>
+ 				
+								
+				<% end %>
+ 		  </tbody>
+			
+			
+		</table>
+		<img src="/img/ant.gif" style="padding-left: 600px; padding-top: 100px;"/>
+	</div>
+	
+</div>
+

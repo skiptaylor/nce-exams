@@ -1,0 +1,62 @@
+<div class="row">
+
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+		<br />
+		<div class="affix" style="margin-top: 570px;">
+			<form method="get">
+				<p><%= @start.to_fields 'start' %></p>
+				<p><%= @end.to_fields 'end' %></p>
+				<p>
+					<button type="submit" class="btn btn-primary">Filter</button>
+					<a href="<%= request.url %><%= params.count > 0 ? '&export=true' : '?export=true' %>" class="btn">Export</a>
+				</p>
+			</form>
+		</div>
+	</div>
+
+	<div class="span9">
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li class="active">Purchases</li>
+		</ul> -->
+
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Item</th>
+					<th>User</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @purchases.each do |purchase| %>
+					<tr>
+						<td><%= purchase.created_at.display :american_day %></td>
+						<td><%= purchase.amount.dollarize %></td>
+						<td>
+							<%= purchase.package %>
+							<br />
+							<span style="font-size: 90%;"><%= purchase.options %></span>
+							<br />
+							<% if purchase.options2 %><% unless purchase.options2 == '0' %><span style="font-size: 90%;">+ <%= purchase.options2 %> Exam Scenarios</span><% end %><% end %>
+						</td>
+						<td>
+							<%= purchase.user.name %><br />
+							<a href="/admin/users/<%= purchase.user.id %>"><%= purchase.user.email %></a><br />
+							<a href="https://manage.stripe.com/#payments/<%= purchase.stripe_id %>" target="_blank"><%= purchase.stripe_id %></a>
+						</td>
+						<td style="text-align: right;">
+							<%= "<span class='label label-#{purchase.shipping_status}'>Ship</span>" if ( (purchase.package && purchase.package.include?('Hard Copy')) || (purchase.options && purchase.options.include?('Hard Copy')) ) %> 
+							<a href="/admin/purchases/<%= purchase.id %>" class="btn btn-mini btn-info" style="padding: 2px 3px;"><i class="icon icon-edit icon-white"></i></a>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+
+	</div>
+
+</div>

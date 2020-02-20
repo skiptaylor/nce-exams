@@ -1,0 +1,259 @@
+<script src="/js/admin/ncmhce.js"></script>
+
+<div class="container">
+	
+	<div id="top"> </div>
+
+<div class="row">
+	<div class="span3">
+		<%= erb :'admin/navigation', layout: false %>
+	</div>
+	
+	<div class="span9">
+	
+		<!-- <ul class="breadcrumb">
+			<li>Admin <span class="divider">/</span></li>
+			<li><a href="/admin/scenarios">Scenarios</a> <span class="divider">/</span></li>
+			<li class="active"><%= @scenario.title %></li>
+		</ul> -->
+
+		<div class="row">
+			<div class="span7">
+				<h1><%= @scenario.title %></h1>
+				<%= markdown @scenario.body %>
+				
+				<div class="modal fade" id="edit-scenario" style="display: none;">
+					<div class="modal-body">
+						<form id="edit-scenario-form" class="form-horizontal" action="/admin/scenarios/<%= params[:id] %>/" method="post">
+							<fieldset>
+								<label><strong>Title</strong></label>
+								<input type="text" name="title" style="width: 98%;" value="<%= @scenario.title %>" />
+								<br />
+								<br />
+								<label><strong>Intoduction</strong></label>
+								<textarea style="width: 98%; height: 16em;" name="body"><%= @scenario.body %></textarea>
+								<br />
+								<br />
+								<label><strong>References</strong></label>
+								<textarea style="width: 98%; height: 15em;" name="references"><%= @scenario.references %></textarea>
+								<br />
+								<br />
+								<div class="row">
+									<div class="span1">
+										<label class="checkbox">
+											<input type="checkbox" name="active" <%= 'checked' if @scenario.active? %> /> Active
+										</label>
+									</div>
+									<div class="span1">
+										<label class="checkbox">
+											<input type="checkbox" name="sample" <%= 'checked' if @scenario.sample? %> /> Sample
+										</label>
+									</div>
+									<div class="span1">
+										<label class="checkbox">
+											<input type="checkbox" name="workshop" <%= 'checked' if @scenario.workshop? %> /> Workshop
+										</label>
+									</div>
+									<div class="span1" style="margin-left: 48px;">
+										<label class="checkbox">
+											<input type="checkbox" name="practice" <%= 'checked' if @scenario.practice? %> /> Practice
+										</label>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+						<a href="#" class="btn btn-primary save" id="save-scenario-btn">Save changes</a>
+					</div>
+				</div>
+			</div>
+			<div class="span2">
+				<div class="btn-group" style="float: right;">
+					<a data-toggle="modal" class="btn btn-mini btn-primary" href="#edit-scenario"><i class="icon-edit icon-white"></i></a>
+					<a data-toggle="modal" class="btn btn-mini btn-success" href="#new-question"><i class="icon-plus icon-white"></i></a>
+				</div>
+				<br /><br />
+				<a href="#references" class="pull-right"><img src="/img/page-pointer.png" /></a>
+			</div>
+		</div>
+	
+		<div class="modal fade" id="new-question" style="display: none;">
+			<div class="modal-header">
+				<a class="close" data-dismiss="modal">x</a>
+				<h3>New Questsion</h3>
+			</div>
+			<div class="modal-body">
+				<form id="new-question-form" class="form-horizontal" action="/admin/scenarios/<%= params[:id] %>/questions/new" method="post">
+					<fieldset>
+						<span class="help-inline"><strong>Question</strong></span>
+						<input type="text" name="position" class="span1">
+						&nbsp;
+						<select name="score_type">
+							<option value="Undefined">Undefined</option>
+							<option value="Information Gathering">Information Gathering</option>
+							<option value="Decision Making">Decision Making</option>
+						</select>
+						<br /><br />
+						<textarea style="width: 98%; height: 14em;" name="body"></textarea>
+						<br />
+						<br />
+						<span class="help-inline"><strong>Notes</strong></span><br />
+						<textarea style="width: 98%; height: 18em;" name="notes"></textarea>
+					</fieldset>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+				<a href="#" class="btn btn-primary" id="save-new-question-btn">Add question</a>
+			</div>
+		</div>
+		
+		<% @questions.each do |question| %>
+		
+	<hr />
+			
+	<div class="row">
+		<div class="span7">
+			<p>
+				<strong><%= question.position %>. <span class="label label-info"><%= question.score_type %></span> <%= question.body %></strong>
+			</p>
+			<%= markdown question.notes if question.notes %>
+					
+			<div class="modal fade" id="edit-question-<%= question.id %>" style="display: none;">
+				<div class="modal-body">
+					<form id="edit-question-<%= question.id %>-form" class="form-horizontal" action="/admin/scenarios/<%= params[:id] %>/questions/<%= question.id %>" method="post">
+						<fieldset>
+							<span class="help-inline"><strong>Question</strong></span>
+							<input type="text" name="position" class="span1" value="<%= question.position %>" />
+							&nbsp;
+							<select name="score_type">
+								<option value="Undefined">Undefined</option>
+								<option value="Information Gathering" <%= 'selected' if question.score_type == 'Information Gathering' %>>Information Gathering</option>
+								<option value="Decision Making" <%= 'selected' if question.score_type == 'Decision Making' %>>Decision Making</option>
+							</select>
+							<br /><br />
+							<textarea style="width: 98%; height: 10em;" name="body"><%= question.body %></textarea>
+							<br />
+							<br />
+							<span class="help-inline"><strong>Notes</strong></span><br />
+							<textarea style="width: 98%; height: 18em;" name="notes"><%= question.notes %></textarea>
+						</fieldset>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+					<a href="#" class="btn btn-primary save-question-btn" id="<%= question.id %>">Save changes</a>
+				</div>
+			</div>
+					
+		</div>
+		<div class="span2">
+			<div class="btn-group" style="float: right;">
+				<a data-toggle="modal" class="btn btn-mini btn-primary" href="#edit-question-<%= question.id %>"><i class="icon-edit icon-white"></i></a>
+				<a data-toggle="modal" class="btn btn-mini btn-success" href="#new-answer-<%= question.id %>"><i class="icon-plus icon-white"></i></a>
+				<a class="btn btn-mini btn-danger" href="/admin/scenarios/<%= question.scenario_id %>/questions/<%= question.id %>/delete"><i class="icon-remove icon-white"></i></a>
+			</div>
+		</div>
+	</div>
+			
+	<div class="modal fade" id="new-answer-<%= question.id %>" style="display: none;">
+		<div class="modal-header">
+			<a class="close" data-dismiss="modal">?</a>
+			<h3>New Answer for Question <%= question.position %></h3>
+		</div>
+		<div class="modal-body">
+			<form id="new-answer-<%= question.id %>-form" class="form-horizontal" action="/admin/scenarios/<%= params[:id] %>/questions/<%= question.id %>/answers/new" method="post">
+				<fieldset>
+					<span class="help-inline"><strong>Answer</strong></span>
+					<br />
+					<input type="text" name="body" style="width: 98%; height: 8em;" />
+					<br /><br />
+					<span class="help-inline"><strong>Response</strong></span>
+					<textarea style="width: 98%; height: 18em;" name="response"></textarea>
+					<br /><br />
+					<span class="help-inline"><strong>Value</strong></span>
+					<input type="text" name="value" class="span1" />
+					&nbsp; &nbsp; &nbsp;
+					<label class="checkbox" style="display: inline-block; line-height: 0em;">
+						<input type="checkbox" name="required" style="margin-top: -.4em;" /> Required to continue
+					</label>
+				</fieldset>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+			<a href="#" class="btn btn-primary new-answer-btn" id="<%= question.id %>">Save changes</a>
+		</div>
+	</div>
+
+	<%
+		answers = []
+		@answers.each {|a| answers << a if a.question_id == question.id}
+	%>
+	<p>
+		<% answers.each do |answer| %>
+			<div class="row">
+				<div class="span7">
+					<%= answer.body %>
+					<strong>(<%= answer.value %>)</strong><br style="line-height: 2.5em;" />
+					<%= '<i class="icon-ok"></i>' if answer.required? %>
+					<span style="margin-bottom: 0.5em;"><blockquote><%= markdown answer.response %></blockquote>
+							
+					<div class="modal fade" id="edit-answer-<%= answer.id %>" style="display: none;">
+						<div class="modal-body">
+							<form id="edit-answer-<%= answer.id %>-form" class="form-horizontal" action="/admin/scenarios/<%= params[:id] %>/questions/<%= question.id %>/answers/<%= answer.id %>" method="post">
+								<fieldset>
+									<span class="help-inline"><strong>Answer</strong></span>
+									<br />
+									<input type="text" name="body" style="width: 98%;" value="<%= answer.body %>" />
+									<br /><br />
+									<span class="help-inline"><strong>Response</strong></span>
+									<textarea style="width: 98%; height: 30em;" name="response"><%= answer.response %></textarea>
+									<br /><br />
+									<span class="help-inline"><strong>Value</strong></span>
+									<input type="text" name="value" class="span1" value="<%= answer.value %>" />
+									&nbsp; &nbsp; &nbsp;
+									<label class="checkbox" style="display: inline-block; line-height: 0em;">
+										<input type="checkbox" name="required" style="margin-top: -.4em;" <%= 'checked' if answer.required? %> /> Required to continue
+									</label>
+								</fieldset>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+							<a href="#" class="btn btn-primary save-answer-btn" id="<%= answer.id %>">Save changes</a>
+						</div>
+					</div>
+							
+				</div>
+				<div class="span2">
+					<div class="btn-group" style="float: right;">
+						<a data-toggle="modal" class="btn btn-mini btn-primary" href="#edit-answer-<%= answer.id %>"><i class="icon-edit icon-white"></i></a>
+						<a class="btn btn-mini btn-danger" href="/admin/scenarios/<%= question.scenario_id %>/questions/<%= answer.question_id %>/answers/<%= answer.id %>/delete"><i class="icon-remove icon-white"></i></a>
+					</div>
+				</div>
+			</div>
+		<% end %>
+	</p>
+			
+<% end %>
+		<div id="references">
+			
+			<% unless @scenario.references == nil %>
+			<hr />
+				<h2>Resources</h2><br />
+				<span class="reference">
+				<%= markdown @scenario.references %>
+				</span>
+				<br />
+			<% end %>
+		</div>
+	</div>
+
+</div>
+
+</div>
+<a href="#top" style="position: fixed; right: 2em; bottom: 2em;"><img src="/img/top-pointer.png" /></a>
+

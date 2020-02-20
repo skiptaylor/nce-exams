@@ -1,0 +1,61 @@
+<div class="row">	
+	<div class="span12">
+		
+			<h1><%= @exam %> Flash Cards</h1>
+						
+			<p>Use these flash cards to promote active recall.
+The following terms are taken from the study material. The definitions of these terms are brief to re-enforce learning and may require further research.</p> 
+
+			<p>Click on the blue SELECT CHAPTER button to select your topic. Click on the green VIEW XXX FLASH CARDS button to begin using your flashcards for that topic. The flashcard will open with the term only. When you are ready for the answer, click on the bottom of the term screen below the line. To return to the main screen click on the blue Chapters tab in your flashcard window.</p>
+		
+	</div>
+</div>
+
+<ul class="nav nav-pills">
+  <li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 7px 12px 9px;">
+        Select a Chapter 
+        <b class="caret"></b>
+      </a>
+    <ul class="dropdown-menu">
+		<% @glossary.group_by(&:chapter).each_with_index do |(chapter, terms), index| %>
+			<li <%= 'class="active"' if index == 0 %>><a href="#terms-<%= index %>" data-toggle="tab"><%= chapter %></a></li>
+		<% end %>
+    </ul>
+  </li>
+</ul>
+
+
+<div class="tab-content">
+	<% @glossary.group_by(&:chapter).each_with_index do |(chapter, terms), index| %>
+		<div class="tab-pane <%= 'active' if index == 0 %>" id="terms-<%= index %>">
+
+			<p>
+				<a href="/cards/<%= @exam %>/<%= chapter %>" class="btn btn-large btn-success"><strong>View <%= chapter %> Flash Cards</strong></a>
+			</p>
+
+			<hr />
+
+			<!-- <h1 class="blue-color"><%= chapter %> Terms</h1>
+			<hr style="margin: .6em 0;" />
+			<% terms.sort!{|a,b| a.term <=> b.term}.each do |glossary| %>
+				<div class="row">
+
+					<div class="span3">
+						<strong><%= glossary.term %></strong>
+					</div>
+					<div class="span9">
+						<%= markdown glossary.short_def %>
+						<% unless glossary.definition == "" %><hr style="margin: .6em 0;" />
+						<small><%= markdown glossary.definition %></small><% else %><% end %>
+					</div>
+
+				</div>
+				<hr style="margin: 3px 0 6px 0;" />
+			<% end %> -->
+		</div>
+	<% end %>
+</div>
+
+
+

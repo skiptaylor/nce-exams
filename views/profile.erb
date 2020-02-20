@@ -1,0 +1,688 @@
+<div class="row">
+	<div class="span12">
+		<div class="page-header visible-desktop">
+			<h1>
+				<%= @user.name %> <small style="font-size: 0.75em;"><%= 'Admin' if @user.admin? %></small>
+			</h1>
+		</div>
+		<div class="page-header visible-tablet" style="margin-top: -40px;">
+			<h1>
+				<%= @user.name %> <small style="font-size: 0.75em;"><%= 'Admin' if @user.admin? %></small>
+			</h1>
+		</div>
+		<div class="page-header visible-phone" style="margin-top: -10px;">
+			<h1>
+				<%= @user.name %> <small style="font-size: 0.75em;"><%= 'Admin' if @user.admin? %></small>
+			</h1>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+
+	<div class="span3">
+		<form class="well form-horizontal" method="post" autocomplete="off">
+			<p>
+				<label for="email"><strong>Email address</strong></label>
+				<input type="text" class="uneditable-input" style="width: 96%; color: #333333;" name="email" id="email" value="<%= @user.email %>" />
+				<span class="hidden"><input type="text" style="width: 96%; color: #333333;" name="email" id="email" value="<%= @user.email %>" /></span>
+			</p>
+			<p>
+				<label for="phone"><strong>Phone number</strong></label>
+				<input type="text" style="width: 96%;" name="phone" id="phone" placeholder="Phone" value="<%= @user.phone %>" />
+			</p>
+			<p>
+				<label for="password"><strong>New password</strong></label>
+				<input type="password" style="width: 96%;" name="password" id="password" />
+				<span class="help-inline"  style="line-height: 1em; margin: 3px 0;"><small>Leave blank unless you want a new password.</small></span>
+			</p>
+			<!-- <% unless @user.license == "" %>
+			<p>
+				<small><strong>License:</strong> <%= @user.license %></small>
+			</p>
+			<% end %> -->
+			<p>
+				<button type="submit" class="btn btn-primary">Update Account</button>
+			</p>
+			<hr />
+			<p>
+				<% if @user.admin? %>
+					<small>No expiration date.</small>
+				
+				<% else %>
+					<% if (@user.expiration_date - 30) > Time.now.to_date %>
+						<small>Account expires on <strong><%= @user.expiration_date.display :american_day %></strong>.</small>
+					<% elsif (@user.expiration_date - 0) > Time.now.to_date %>
+						<small><span style="color: red;">Account expires on <strong><%= @user.expiration_date.display :american_day %></strong>.</span></small>
+						
+						<p><small>You can buy a 90 day account extension for $30</small></p>
+						<p ><a href="/checkout/account-extension?account=<%= @user.email %>" class="btn btn-success oswald">Buy Account Extension Now</a>
+						</p>
+						
+					<% else (@user.expiration_date + 1) > Time.now.to_date %>	
+						
+						<small><span style="color: red;">Account expired on <strong><%= @user.expiration_date.display :american_day %></strong>.</span></small>
+						
+					<% end %>
+				<% end %>
+			</p>
+			
+		</form>
+		
+	</div>
+
+	<div class="span9">
+
+	<% Message.all(profile: true).each do |m| %>
+		<div class="alert alert-info" style="border: none;"><%= m.body %></div>
+	<% end %>
+	
+	
+		<% if @user.expiration_date <= DateTime.now %>
+			<div class="alert alert-warning" style="border: none;">
+				<h3>Your account has expired.</h3>
+				<p>You can refresh your account by purchasing any available scenarios or exams below.</p>
+				<p>Or you can extend your account for 90 days by purchasing an account extension for $65.</p>
+				
+				<p><a href="/checkout/account-expiration?account=<%= @user.email %>" class="btn btn-success btn-small">Buy an Account Extension for $65</a></p>
+				
+				<p>All of your study materials will become available again after purchase.</p>
+			</div>
+		<% end %>
+	
+	
+<!-- –––––––––––––––––– ncmhce –––––––––––––––––– -->
+
+	<% if @user.max_scenarios > 0 %>
+
+		<div>
+			<h3 class="section-header hidden-desktop">NCMHCE Tutorial Scenarios</h3>
+			<div class="stacked-buttons">	
+				<% if @user.max_scenarios < 36 %>
+					<a class="btn btn-success btn-small oswald stacked-each" style="font-size: 1em;" href="/checkout/ncmhce-upgrade">Buy 12 more Tutorial Scenarios for $95</a>
+				<% end %>
+				<br class="visible-phone" />
+				<!-- <% if @user.max_practice_scenarios < 10 %>
+					<a class="btn btn-success btn-small oswald stacked-each" href="/checkout/ncmhce-exam-scenarios">Buy 10 Exam Scenarios for $70</a>
+				<% end %> -->
+			</div>	
+			<h3 class="section-header visible-desktop">NCMHCE Tutorial Scenarios</h3>
+			<br />
+		</div>
+		
+
+		<% Message.all(ncmhce: true).each do |m| %>
+		<div class="alert alert-info" style="border: none; clear: both;"><%= m.body %></div>
+		<% end %>
+
+	 
+	 
+	 <% if @user.purchases.any? { |purchase| (purchase.package == "NCMHCE: Starter Package") && ((purchase.created_at + 14) > Time.now.to_date) } && @user.remaining_scenarios < 13 %>
+	
+	 <div class="well">
+	 
+	 <h2 class="oswald ncmhce-color" style="margin-top: -6px;">Second Chance Offer! &nbsp; You'll save $106!</h2> 
+	 <p><strong>For access to all 47 scenarios</strong>, you have two weeks from your original purchase date to upgrade your <strong>Starter Package</strong> to our <strong>Full Package</strong> for the price difference of <strong>$154</strong>. <small>(Equals price of purchasing Full Package)</small></p>
+ 	
+
+	 <span style="float: right; margin-top: 5px;"><a class="btn btn-success btn-small oswald" style="font-size: 1em;" href="/checkout/second-chance-upgrade">Upgrade to Full Package now for $154</a></span>
+	 <% @user.purchases.each do |purchase| %>
+	 	<% if purchase.package == "NCMHCE: Starter Package" %>
+	 <h2 class="oswald ceu-color" style="margin-bottom: -6px; font-size: 1.4em;">You have <%= ((purchase.created_at.to_date + 14) - Time.now.to_date).to_i %> days left.</h2>
+	 
+ 		<% end %>
+ 	 <% end %>
+	 
+	 </div>
+
+	 <% end %>
+	 
+
+	 
+	 	<% unless @user.expired? %>
+		<p><a class="btn btn-info" href="/ncmhce/scenarios"><strong>Choose a scenario to take</strong></a>&nbsp; <br class="visible-phone" /> &nbsp; <small>You have <%= @user.remaining_scenarios %> of <%= @user.max_scenarios %> remaining.</small></p>
+		<% end %>
+		<% unless @scenarios.empty? %>
+			<table class="table table-condensed table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Scenario</th>
+						<th>IG</th>
+						<th>DM</th>
+						<th>Last Taken</th>
+						<th style="text-align: right;"></th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<% @scenarios.sort { |a,b| a.scenario_id <=> b.scenario_id }.each do |average| %>
+						<% unless average.scenario.workshop? || average.scenario.practice? || average.scenario(active: false) %>
+							<tr>
+								<td>
+									<%= average.scenario_id %>. <%= average.scenario.title %>
+									<%= '<span class="label label-info">Sample</span>' if average.scenario.sample? %>
+								</td>
+								<td>
+									<% @information_gathering = Scoretype.last(
+										type: "Information Gathering",
+										scenario_id: average.scenario_id,
+										user_id: session[:user]
+									) %>
+									<% if @information_gathering %>
+									<small><%= @information_gathering.correct %>/<%= @information_gathering.possible %> </small>
+									<% else %><small>N/A</small><% end %>
+								</td>
+								<td>
+									<% @decision_making = Scoretype.last(
+										type: "Decision Making",
+										scenario_id: average.scenario_id,
+										user_id: session[:user]
+									) %>
+									<% if @decision_making %>
+									<small><%= @decision_making.correct %>/<%= @decision_making.possible %></small>
+									<% else %><small>N/A</small><% end %>
+								</td>
+								<% if avg = Average.last(user_id: session[:user], scenario_id: average.scenario_id) %>
+									<td><%= avg.updated_at.display_short if average %></td>
+								<% else %>
+									<td>Unfinished</td>
+								<% end %>
+								<td style="text-align: center; background-color: #f2f3f3;">
+									<% unless @user.expired? %>
+									<% if avg == nil %>
+										<a href="/ncmhce/scenarios/<%= average.scenario_id %>">Continue</a>
+										<% else %>
+										<a href="/ncmhce/scenarios/<%= average.scenario_id %>">Review</a>
+									<% end %>
+									<% end %>
+								</td>
+							</tr>
+						<% end %>
+						
+					<% end %>
+				</tbody>
+			</table>
+		<% end %>
+
+		<hr /><br />
+	<% end %>
+	
+<!-- –––––––––––––––––– exam scenarios (practice) –––––––––––––––––– -->
+		
+	<% if (@user.max_practice_scenarios < 1) %>
+	
+	<% unless @user.purchases.any? { |purchase| (purchase.package == "NCMHCE: Starter Package") && ((purchase.created_at + 14) > Time.now.to_date) } && @user.remaining_scenarios < 13 %>
+ 	
+	<div>
+		<h3 class="section-header hidden-desktop">NCMHCE Exam Scenarios</h3>
+		
+		
+		<% unless @user.expired? %>
+		<div class="stacked-buttons">	
+			<% if @user.max_practice_scenarios < 1 %>
+				<a class="btn btn-success btn-small oswald stacked-each" style="font-size: 1em;" href="/checkout/ncmhce-exam-scenarios">Buy 10 Exam Scenarios for $70</a>
+			<% end %>
+		</div>
+		
+		
+		
+		<h3 class="section-header visible-desktop">NCMHCE Exam Scenarios</h3>
+		<br />
+		<h4>Purchase 10 Exam Scenarios for $70.</h4>
+		<p>Exam Scenarios provide practice using the exam format.</p>
+		
+		<% end %>
+		
+	</div>
+	<hr /><br />
+	<% end %>
+	<% end %>
+	
+	<% if @user.max_practice_scenarios > 0 %>
+		<div>
+			<h3>
+				<span class="oswald" style="font-size: 1.8em;">NCMHCE Exam Scenarios</span>
+			</h3>
+			<br />
+		</div>
+      <% Message.all(exams: true).each do |m| %>
+        <div class="alert alert-info" style="border: none;"><%= m.body %></div>
+      <% end %>
+	 	<% unless @user.expired? %>
+		<p><a class="btn btn-info" href="/ncmhce/practice-scenarios"><strong>Choose a scenario to take</strong></a>&nbsp; <br class="visible-phone" /> &nbsp; <small>You have <%= @user.remaining_practice_scenarios %> of <%= @user.max_practice_scenarios %> remaining.</small></p>
+		<% end %>
+		<% unless @scenarios.empty? %>
+			<table class="table table-condensed table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Scenario</th>
+						<th>IG</th>
+						<th>DM</th>
+						<th>Last Taken</th>
+						<th style="text-align: right;"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @scenarios.sort { |a,b| a.scenario_id <=> b.scenario_id }.each do |average| %>
+						<% if average.scenario.practice? %>
+							<tr>
+								<td>
+									<%= average.scenario_id %>. <%= average.scenario.title %>
+								</td>
+								<td>
+									<% @information_gathering = Scoretype.last(
+										type: "Information Gathering",
+										scenario_id: average.scenario_id,
+										user_id: session[:user]
+									) %>
+									<% if @information_gathering %>
+									<small><%= @information_gathering.correct %>/<%= @information_gathering.possible %></small> 
+									<% else %><small>N/A</small><% end %>
+								</td>
+								<td>
+									<% @decision_making = Scoretype.last(
+										type: "Decision Making",
+										scenario_id: average.scenario_id,
+										user_id: session[:user]
+									) %>
+									<% if @decision_making %>
+									<small><%= @decision_making.correct %>/<%= @decision_making.possible %></small>
+									<% else %><small>N/A</small><% end %>
+								</td>
+								<% if avg = Average.last(user_id: session[:user], scenario_id: average.scenario_id) %>
+									<td><%= avg.updated_at.display_short if average %></td>
+								<% else %>
+									<td>Unfinished</td>
+								<% end %>
+								<td style="text-align: center; background-color: #f2f3f3;">
+									<% unless @user.expired? %>
+									<% if avg == nil %>
+										<a href="/ncmhce/scenarios/<%= average.scenario_id %>">Continue</a>
+										<% else %>
+										<a href="/ncmhce/scenarios/<%= average.scenario_id %>">Review</a>
+									<% end %>
+									<% end %>
+								</td>
+							</tr>
+						<% end %>
+					<% end %>
+				</tbody>
+			</table>
+	 	<% end %>
+					
+			</tbody>
+		</table>
+
+		<hr /><br />
+	<% end %>
+	
+	<!-- –––––––––––––––––– NCMHCE study –––––––––––––––––– -->
+
+		
+		
+		<% if @user.max_scenarios > 0 && @user.ncmhce_downloads %>
+		
+		<% unless @user.expired? %>
+		
+		<% unless @user.expired? %>
+		<% unless @user.purchases.any? { |purchase| purchase.options == "+ Hard Copy" } %>
+		<% unless @user.purchases.any? { |purchase| (purchase.package == "NCMHCE: Hard Copy") } %>
+			<p class="pull-right"><a class="btn btn-success btn-small oswald" style="font-size: 1em;" href="/checkout/ncmhce-hard-copy">Buy a hard copy for $40.65</a></p>
+		<% end %>
+		<% end %>
+		<% end %>
+
+			<div>
+				<h3>
+					<span class="oswald" style="font-size: 1.8em;">NCMHCE Study Online</span>
+				</h3>
+				<br />
+			
+			  	 <% if @user.ncmhce_downloads %>
+			  	 <p style="padding: 0.2em 0 0.7em 0;"><a class="btn btn-info" href="/manuals/98/sections/cover"><strong>NCMHCE Study Supplement</strong></a> &nbsp; <br class="visible-phone" /><span class="label label-important">NEW</span> &nbsp;<strong>Study Online Now.</strong> No need to download ebook.</p>
+			  	 <% end %>
+	 
+			  	 <% if @user.ncmhce_flashcards %>
+			  	 <p style="padding: 0em 0 0.7em 0;"><a class="btn btn-info" href="/ncmhce/glossary"><strong>NCMHCE Flashcards</strong></a> &nbsp; <br class="visible-phone" /><span class="label label-important">NEW</span> &nbsp;<strong>Use these flashcards to promote active recall.</strong></p>
+			  	 <% end %>
+				
+			</div>
+			<hr /><br />
+		<% end %>
+		
+		<% end %>
+	
+
+	
+   <!-- –––––––––––––––––– nce –––––––––––––––––– -->    
+
+  	<% if @user.max_exams > 0 %>
+
+  		<div>
+  			<h3>
+  				<span class="oswald" style="font-size: 1.8em;">NCE Exams</span>
+  					<% unless @user.max_exams > 2 %>
+  						<span style="float: right; margin-left: 3px;">&nbsp;<a class="btn btn-success btn-small oswald" style=" font-size: 0.75em;" href="/checkout/nce-upgrade">Buy 2 more practice exams for $60</a></span>
+  					<% end %>
+  					
+  			</h3>
+  			<br />
+  		</div>
+		
+			
+			<div class="modal hide fade" id="impModal" tabindex="-1" role="dialog" aria-labelledby="impModalLabel">
+			  <div class="modal-dialog modal-lg" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header" style="color: white; background-color: #ea0422;">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h1 class="modal-title" id="infoModalLabel">Important Information about the NCE</h1>
+			      </div>
+			      <div class="modal-body">
+						
+							<p>The National Board for Certified Counselors (NBCC) has announced that the National Counselor Examination (NCE) for state board licensure has being revamped, effective March 2020.</p>
+ 
+							<p>While the exam still assesses the 8 CACREP areas, it has been re-structured around a new content outline, with revised weighting of questions around six domains (work areas), based upon a national survey of over 16,000 certified and licensed counselors.</p>
+ 
+							<p>The publisher of "Dr. Arthur's Study Guide for the NCE" is currently working to revise our study materials to reflect these changes, and current customers will receive notification once updated materials are available. In the meantime, current customers are encouraged to schedule a consultation with Dr. Arthur to discuss how to best study for the new version of the NCE. To initiate a consultation, please email <a href="mailto:info@careertrain.com"><strong>info@careertrain.com</strong></a>.</p>
+ 
+							<p>More information about the changes to the NCE, along with a downloadable content outline, are available at the <a href="https://www.nbcc.org/exams/nce" target="blank"><strong>NBCC website</strong></a>.
+								<br />
+							</p>
+					
+						</div>
+	
+			
+						<div class="modal-footer">
+				        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+				      </div>
+			
+ 
+					  </div>
+					</div>
+				</div>
+			
+			<div>
+			
+				<a href="#impModal" role="button" class="btn" style="z-index: 1500; color: white; background-color: #ea0422; margin-bottom: 12px;" data-toggle="modal">Important Information about the NCE &nbsp;
+				<i class="icon-chevron-down icon-white"></i>
+				</a>
+		</div>
+
+      <% Message.all(nce: true).each do |m| %>
+        <div class="alert alert-info" style="border: none;"><%= m.body %></div>
+      <% end %>
+	 
+
+	 
+  	 <% unless @user.expired? %>
+  		<p><a class="btn btn-info" href="/nce/exams"><strong>Choose a NCE exam to take</strong></a> &nbsp; <small>You have <%= @user.remaining_exams %> of <%= @user.max_exams %> remaining.</small></p>
+  		<% end %>
+  		<% unless @exams.empty? %>
+  			<table class="table table-condensed table-striped table-hover">
+  				<thead>
+  					<tr>
+  						<th>Exam</th>
+  						<th>Score</th>
+  						<th>Last Taken</th>
+  						<th></th>
+  					</tr>
+  				</thead>
+  				<tbody>
+  					<% @exams.sort { |a,b| a.exam_id <=> b.exam_id }.each do |average| %>
+  						<tr>
+  							<td><%= average.exam.title %></td>
+  							<td>
+  								<% if avg = Average.last(user_id: session[:user], exam_id: average.exam_id) %>
+  									<%= avg.score %>%
+  								<% else %>
+  									N/A
+  								<% end %>
+  							</td>
+  							<td><%= average.updated_at.display %></td>
+  							<td style="text-align: center; background-color: #f2f3f3;">
+  								<% unless @user.expired? %>
+  								<% if avg == nil %>
+  									<a href="/nce/exams/<%= average.exam_id %>">Continue</a>
+  									<% else %>
+  									<a href="/nce/exams/<%= average.exam_id %>">Review</a>
+  								<% end %>
+  								<% end %>
+  							</td>
+  						</tr>
+  					<% end %>
+  				</tbody>
+  			</table>
+  		<% end %>
+		
+  		<hr /><br />
+  	<% end %>
+	
+	
+<!-- –––––––––––––––––– NCE study –––––––––––––––––– -->
+	
+	
+	
+	
+	<% if @user.max_exams > 0 && @user.nce_downloads %>
+	
+	<% unless @user.expired? %>
+	
+	<% unless @user.expired? %>
+	<% unless @user.purchases.any? { |purchase| purchase.options == "+ Hard Copy" } %>
+		<span style="float: right;"><a class="btn btn-success btn-small oswald" style=" font-size: 1em;" href="/checkout/nce-hard-copy">Buy a hard copy for $57.45</a></span>
+	<% end %>
+	<% end %>
+
+		<div>
+			<h3>
+				<span class="oswald" style="font-size: 1.8em;">NCE Study Online</span>
+			</h3>
+			<br />
+			
+		  	 <% if @user.nce_downloads %>
+		  	 <p style="padding: 0.2em 0 0.7em 0;"><a class="btn btn-info" href="/manuals/99/sections/cover"><strong>NCE Study Guide</strong></a> &nbsp; <br class="visible-phone" /><span class="label label-important">NEW</span> &nbsp;<strong>Study Online Now.</strong> No need to download ebook.</p>
+		  	 <% end %>
+	 
+		  	 <% if @user.nce_flashcards %>
+		  	 <p style="padding: 0em 0 0.7em 0;"><a class="btn btn-info" href="/nce/glossary"><strong>NCE Flashcards</strong></a> &nbsp; <br class="visible-phone" /><span class="label label-important">NEW</span> &nbsp;<strong>Use these flashcards to promote active recall.</strong></p>
+		  	 <% end %>
+				
+		</div>
+		<hr /><br />
+	<% end %>
+	
+	<% end %>
+	
+
+	
+	<!-- –––––––––––––––––– workshop –––––––––––––––––– -->
+
+		<% if @user.workshop_scenarios? %>
+
+			<div>
+				<h3><span class="oswald" style="font-size: 1.8em;">Workshop Scenarios</span></h3>
+				<br />
+			</div>
+
+			<table class="table table-condensed table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Scenario</th>
+					
+						<th>Taken On</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% Scenario.all(workshop: true, active: true).each do |scenario| %>
+						<% use = Use.last(scenario_id: scenario.id, user_id: @user.id) %>
+						<% avg = Average.last(scenario_id: scenario.id, user_id: @user.id) %>
+						<tr>
+							<td><%= scenario.title %></td>
+						
+							<td><%= avg.updated_at.display_short if avg %></td>
+							<td style="text-align: right;">
+								<% unless @user.expired? %>
+									<a href="/ncmhce/scenarios/<%= scenario.id %>">Take</a>
+								<% end %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+
+			<hr /><br />
+		<% end %>
+	
+	
+	
+<!-- –––––––––––––––––– downloads –––––––––––––––––– -->
+
+		<% if @user.nce_downloads || @user.ncmhce_downloads %>
+		<% unless @user.expired? %>
+		<div>
+			<h3><span class="oswald" style="font-size: 1.8em;">Downloads</span></h3>
+			<br />
+		</div>
+		
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th>Book</th>
+					<th class="hidden-phone">Format</th>
+					<th style="text-align: center;">Last Update</th>
+					<th class="hidden-phone"></th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<% if @user.ncmhce_downloads %>
+					<tr>
+						<td>NCMHCE Study Supplement online</td>
+						<td colspan="2">
+							<span class="label label-important">NEW</span> &nbsp;Study online. <small>No download needed!</small>
+						</td>
+						<td colspan="2" style="text-align: right;"><a href="/manuals/98/sections/cover">Study now</a></td>
+					</tr>
+					<tr>
+						<td>NCMHCE Study Supplement.pdf</td>
+						<td class="hidden-phone">Any device with a PDF Reader</td>
+						<td style="text-align: center;"><span class="badge badge-info"><small>12/9/2019</small></span></td>
+						<td class="hidden-phone"><small>2.7MB</small></td>
+						<% unless @user.expired? %>
+						<td style="text-align: right;"><a href="/downloads/ncmhce?file=NCMHCE-Study-Supplement-3.0.1-ebook.pdf">Download</a></td>
+						<% end %>
+					</tr>
+					<!-- <tr>
+						<td>NCMHCE Study Supplement.epub</td>
+						<td class="hidden-phone">iPhone/iPad, Android, eReaders</td>
+						<td style="text-align: center;"><span class="badge badge-info"><small>6/4/2015</small></span></td>
+						<td class="hidden-phone"><small>499KB</small></td>
+						<% unless @user.expired? %>
+						<td style="text-align: right;"><a href="/downloads/ncmhce?file=NCMHCE%20Study%20Supplement.epub">Download</a></td>
+						<% end %>
+					</tr>
+					<tr>
+						<td>NCMHCE Study Supplement.mobi</td>
+						<td class="hidden-phone">
+							<a href="#" class="top" rel="popover" title="Location of eBook on Kindle" data-content="Even if copied into the Books folder, this eBook might only be accessable from the Docs folder.">Kindle</a>
+						</td>
+						<td style="text-align: center;"><span class="badge badge-info"><small>6/19/2015</small></span></td>
+						<td class="hidden-phone"><small>2.2MB</small></td>
+						<% unless @user.expired? %>
+						<td style="text-align: right;"><a href="/downloads/ncmhce?file=NCMHCE%20Study%20Supplement.mobi">Download</a></td>
+						<% end %>
+					</tr> -->
+					<tr>
+						<td colspan="5"> </td>
+					</tr>
+				<% end %>
+				<% if @user.nce_downloads %>
+					<tr>
+						<td>NCE Study Guide online</td>
+						<td colspan="2">
+							<span class="label label-important">NEW</span> &nbsp;<span>Study online. No download needed!</span>
+						</td>
+						<td colspan="2" style="text-align: right;"><a href="/manuals/99/sections/cover">Study now</a></td>
+					</tr>
+					<tr>
+						<td>NCE Study Guide.pdf</td>
+						<td class="hidden-phone">Any device with a PDF Reader</td>
+						<td style="text-align: center;"><span class="badge badge-info"><small>1/8/2020</small></span></td>
+						<td class="hidden-phone">3.5MB</td>
+						<% unless @user.expired? %>
+						<td style="text-align: right;"><a href="/downloads/nce?file=NCE-Study-Guide-3.0.5-ebook.pdf">Download</a></td>
+						<% end %>
+					</tr>
+					<!-- <tr>
+						<td>NCE Study Guide.epub</td>
+						<td class="hidden-phone">iPhone/iPad, Android, eReaders</td>
+						<td style="text-align: center;"><span class="badge badge-info"><small>06/02/2014</small></span></td>
+						<td class="hidden-phone">1.2MB</td>
+						<% unless @user.expired? %>
+						<td style="text-align: right;"><a href="/downloads/nce?file=NCE%20Study%20Guide.epub">Download</a></td>
+						<% end %>
+					</tr>
+					<tr>
+						<td>NCE Study Guide.mobi</td>
+						<td class="hidden-phone"><a href="#" rel="popover" title="Location of eBook on Kindle" data-content="Even if copied into the Books folder, this eBook might only be accessable from the Docs folder.">Kindle</a>
+						</td>
+						<td style="text-align: center;"><span class="badge badge-info"><small>06/09/2014</small></span></td>
+						<td class="hidden-phone">3.7MB</td>
+						<% unless @user.expired? %>
+						<td style="text-align: right;"><a href="/downloads/nce?file=NCE%20Study%20Guide.mobi">Download</a></td>
+						<% end %>
+					</tr> -->
+
+				<% end %>
+			</tbody>
+		</table>
+		<% end %>
+		<hr /><br />
+	<% end %>
+	
+<!-- –––––––––––––––––– purchases –––––––––––––––––– -->
+
+	<% if @user.purchases.count > 0 %>
+
+		<div>
+			<h3><span class="oswald" style="font-size: 1.8em;">Purchases</span></h3>
+			<br />
+		</div>
+
+		<table class="table table-condensed table-striped table-hover">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th>Item</th>
+				</tr>
+			</thead>
+			<tbody>
+				<% @user.purchases.each do |purchase| %>
+					<tr>
+						<td><%= purchase.created_at.display :american_day %></td>
+						<td>	<%= purchase.amount.dollarize %></td>
+						<td>
+							<%= purchase.package %>
+							<% if purchase.options %>
+								<%= purchase.options %>
+							<% end %>
+							<% unless purchase.options2 == '0' %>
+								<%= purchase.options2 %>
+							<% end %>
+						</td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+
+	<% end %>
+
+</div>
+
+</div>
+
+</div>
