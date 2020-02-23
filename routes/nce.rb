@@ -107,7 +107,7 @@ get '/nce/exams/:id/score/?' do
 	@breakdown['Group Counseling'] 								 = {possible: 0, correct: 0}
 	@breakdown['Human Growth and Development'] 		 = {possible: 0, correct: 0}
 	@breakdown['Social and Cultural Foundations']  = {possible: 0, correct: 0}
-	@breakdown['Domain 1 - Professional Practice and Ethics'] 				  = {possible: 0, correct: 0}
+	@breakdown['Domain 1: Professional Practice and Ethics'] 				  = {possible: 0, correct: 0}
 	@breakdown['Domain 2: Intake, Assessment, and Diagnosis']           = {possible: 0, correct: 0}
 	@breakdown['Domain 3: Areas of Clinical Focus']	 										= {possible: 0, correct: 0}
 	@breakdown['Domain 4: Treatment Planning']                          = {possible: 0, correct: 0}
