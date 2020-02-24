@@ -39,6 +39,8 @@
 
 		<div class="row">
 			<% params[:group] ? offset ||= true : offset ||= false %>
+			
+
 		
 			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 1: Professional Practice and Ethics', correct: @breakdown['Domain 1: Professional Practice and Ethics'][:correct], possible: @breakdown['Domain 1: Professional Practice and Ethics'][:possible] }) if (params[:group] == 'Domain 1: Professional Practice and Ethics') || !params[:group] %>
 			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 2: Intake, Assessment, and Diagnosis', correct: @breakdown['Domain 2: Intake, Assessment, and Diagnosis'][:correct], possible: @breakdown['Domain 2: Intake, Assessment, and Diagnosis'][:possible] }) if (params[:group] == 'Domain 2: Intake, Assessment, and Diagnosis') || !params[:group] %>

@@ -99,21 +99,14 @@ get '/nce/exams/:id/score/?' do
 	Use.first_or_create(user_id: session[:user], exam_id: params[:id], sample: @exam.sample)
 
 	@breakdown = {}
-	@breakdown['Professional Orientation'] 				 = {possible: 0, correct: 0}
-	@breakdown['Research and Program Evaluation']  = {possible: 0, correct: 0}
-	@breakdown['Appraisal']	 											 = {possible: 0, correct: 0}
-	@breakdown['Lifestyle and Career Development'] = {possible: 0, correct: 0}
-	@breakdown['Helping Relationships'] 					 = {possible: 0, correct: 0}
-	@breakdown['Group Counseling'] 								 = {possible: 0, correct: 0}
-	@breakdown['Human Growth and Development'] 		 = {possible: 0, correct: 0}
-	@breakdown['Social and Cultural Foundations']  = {possible: 0, correct: 0}
-	@breakdown['Domain 1: Professional Practice and Ethics'] 				  = {possible: 0, correct: 0}
-	@breakdown['Domain 2: Intake, Assessment, and Diagnosis']           = {possible: 0, correct: 0}
-	@breakdown['Domain 3: Areas of Clinical Focus']	 										= {possible: 0, correct: 0}
-	@breakdown['Domain 4: Treatment Planning']                          = {possible: 0, correct: 0}
-	@breakdown['Domain 5: Counseling Skills and Interventions'] 				= {possible: 0, correct: 0}
-	@breakdown['Domain 6: Core Counseling Attributes'] 								  = {possible: 0, correct: 0}
-	@breakdown['Undefined']  											                      = {possible: 0, correct: 0}
+	
+	@breakdown['Domain 1: Professional Practice and Ethics']    = {possible: 0, correct: 0}
+	@breakdown['Domain 2: Intake, Assessment, and Diagnosis']   = {possible: 0, correct: 0}
+	@breakdown['Domain 3: Areas of Clinical Focus']	 						= {possible: 0, correct: 0}
+	@breakdown['Domain 4: Treatment Planning']                  = {possible: 0, correct: 0}
+	@breakdown['Domain 5: Counseling Skills and Interventions'] = {possible: 0, correct: 0}
+	@breakdown['Domain 6: Core Counseling Attributes'] 					= {possible: 0, correct: 0}
+	@breakdown['Undefined']  											              = {possible: 0, correct: 0}
 
 	@questions.each do |q|
 		@breakdown[q.score_type][:possible] += 1
