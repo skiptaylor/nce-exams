@@ -2,8 +2,7 @@ source 'https://rubygems.org'
 
 ruby "2.5.1"
 
-gem 'rake', '~> 13.0', '>= 13.0.1'
-
+gem 'rake', '~> 10.4.2'
 gem 'chronic', '~> 0.10.2'
 
 gem 'coffee-script', '~> 2.2.0'
