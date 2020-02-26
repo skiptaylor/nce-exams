@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 ruby "2.5.1"
 
-gem 'rake', '~> 13.0', '>= 13.0.1'
 
 gem 'chronic', '~> 0.10.2'
 
