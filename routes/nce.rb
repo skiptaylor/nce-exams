@@ -42,7 +42,7 @@ get '/nce/guide/:id/:group/?' do
 	end
 
 	@exam = Exam.get params[:id]
-	@questions = @exam.questions(:order => :position, score_type: params[:group])
+	@questions = @exam.questions(:order => :position, score_type: params[:group], score_type2: params[:group])
 	@answers = @questions.answers(:order => :body)
 	erb :'nce/guide'
 end
@@ -73,7 +73,7 @@ get '/nce/exams/:id/?' do
 	@exam = Exam.get params[:id]
 	@questions = @exam.questions(:order => :position)
 	if params[:group]
-		@questions = @questions.all(score_type: params[:group])
+		@questions = @questions.all(score_type: params[:group], score_type2: params[:group])
 	end
 	@answers = @questions.answers(:order => :body)
 	erb :'nce/exam'
@@ -92,21 +92,20 @@ get '/nce/exams/:id/score/?' do
 
 	@average = ((scores.all(countable: true, required: true).count.to_f / @exam.questions(:countable => true).count.to_f)*100).to_i
 
-
-
 	@average = 0 if @average < 0
 	Average.first_or_create(exam_id: params[:id], user_id: session[:user], score: @average)
 	Use.first_or_create(user_id: session[:user], exam_id: params[:id], sample: @exam.sample)
 
 	@breakdown = {}
-	
-	@breakdown['Domain 1: Professional Practice and Ethics']    = {possible: 0, correct: 0}
-	@breakdown['Domain 2: Intake, Assessment, and Diagnosis']   = {possible: 0, correct: 0}
-	@breakdown['Domain 3: Areas of Clinical Focus']	 						= {possible: 0, correct: 0}
-	@breakdown['Domain 4: Treatment Planning']                  = {possible: 0, correct: 0}
-	@breakdown['Domain 5: Counseling Skills and Interventions'] = {possible: 0, correct: 0}
-	@breakdown['Domain 6: Core Counseling Attributes'] 					= {possible: 0, correct: 0}
-	@breakdown['Undefined']  											              = {possible: 0, correct: 0}
+	@breakdown['Professional Orientation'] 				 = {possible: 0, correct: 0}
+	@breakdown['Research and Program Evaluation']  = {possible: 0, correct: 0}
+	@breakdown['Appraisal']	 											 = {possible: 0, correct: 0}
+	@breakdown['Lifestyle and Career Development'] = {possible: 0, correct: 0}
+	@breakdown['Helping Relationships'] 					 = {possible: 0, correct: 0}
+	@breakdown['Group Counseling'] 								 = {possible: 0, correct: 0}
+	@breakdown['Human Growth and Development'] 		 = {possible: 0, correct: 0}
+	@breakdown['Social and Cultural Foundations']  = {possible: 0, correct: 0}
+	@breakdown['Undefined']  											 = {possible: 0, correct: 0}
 
 	@questions.each do |q|
 		@breakdown[q.score_type][:possible] += 1
@@ -115,9 +114,32 @@ get '/nce/exams/:id/score/?' do
 	scores.each do |s|
 		@breakdown[s.score_type][:correct]  += 1 if s.required?
 	end
+	
+  
+  
+  
+  @breakdown2 = {} 
+	@breakdown2['Domain 1: Professional Practice and Ethics']     = {possible: 0, correct: 0}
+	@breakdown2['Domain 2: Intake, Assessment, and Diagnosis']    = {possible: 0, correct: 0}
+	@breakdown2['Domain 3: Areas of Clinical Focus']	 						= {possible: 0, correct: 0}
+	@breakdown2['Domain 4: Treatment Planning']                   = {possible: 0, correct: 0}
+	@breakdown2['Domain 5: Counseling Skills and Interventions']  = {possible: 0, correct: 0}
+	@breakdown2['Domain 6: Core Counseling Attributes'] 					= {possible: 0, correct: 0}
+	@breakdown2['Undefined']  											              = {possible: 0, correct: 0}
+
+	@questions.each do |q|
+		@breakdown2[q.score_type2][:possible] += 1
+	end
+
+	scores.each do |s|
+		@breakdown2[s.score_type2][:correct]  += 1 if s.required?
+	end
+
+
+
 
 	if params[:group]
-		@questions = @questions.all(score_type: params[:group])
+		@questions = @questions.all(score_type: params[:group], score_type2: params[:group])
 	end
 
 	erb :'nce/exam'

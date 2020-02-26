@@ -38,21 +38,37 @@
 		<% end %>
 
 		<div class="row">
+			<% if @exam.id == 1 || @exam.id == 2 %>
 			<% params[:group] ? offset ||= true : offset ||= false %>
 			
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Professional Orientation', correct: @breakdown['Professional Orientation'][:correct], possible: @breakdown['Professional Orientation'][:possible] }) if (params[:group] == 'Professional Orientation') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Research and Program Evaluation', correct: @breakdown['Research and Program Evaluation'][:correct], possible: @breakdown['Research and Program Evaluation'][:possible] }) if (params[:group] == 'Research and Program Evaluation') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Appraisal', correct: @breakdown['Appraisal'][:correct], possible: @breakdown['Appraisal'][:possible] }) if (params[:group] == 'Appraisal') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Lifestyle and Career Development', correct: @breakdown['Lifestyle and Career Development'][:correct], possible: @breakdown['Lifestyle and Career Development'][:possible] }) if (params[:group] == 'Lifestyle and Career Development') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Helping Relationships', correct: @breakdown['Helping Relationships'][:correct], possible: @breakdown['Helping Relationships'][:possible] }) if (params[:group] == 'Helping Relationships') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Group Counseling', correct: @breakdown['Group Counseling'][:correct], possible: @breakdown['Group Counseling'][:possible] }) if (params[:group] == 'Group Counseling') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Human Growth and Development', correct: @breakdown['Human Growth and Development'][:correct], possible: @breakdown['Human Growth and Development'][:possible] }) if (params[:group] == 'Human Growth and Development') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Social and Cultural Foundations', correct: @breakdown['Social and Cultural Foundations'][:correct], possible: @breakdown['Social and Cultural Foundations'][:possible] }) if (params[:group] == 'Social and Cultural Foundations') || !params[:group] %>
+		<% end %>
+		</div>	
+		<% if @exam.id == 3 || @exam.id == 4 %>	
+		<div class="row">
+			<% params[:group] ? offset ||= true : offset ||= false %>	
+			
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 1: Professional Practice and Ethics', correct: @breakdown2['Domain 1: Professional Practice and Ethics'][:correct], possible: @breakdown2['Domain 1: Professional Practice and Ethics'][:possible] }) if (params[:group] == 'Domain 1: Professional Practice and Ethics') || !params[:group] || 'nill' %>
+			
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 2: Intake, Assessment, and Diagnosis', correct: @breakdown2['Domain 2: Intake, Assessment, and Diagnosis'][:correct], possible: @breakdown2['Domain 2: Intake, Assessment, and Diagnosis'][:possible] }) if (params[:group] == 'Domain 2: Intake, Assessment, and Diagnosis') || !params[:group] || 'nill' %>
 
-		
-			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 1: Professional Practice and Ethics', correct: @breakdown['Domain 1: Professional Practice and Ethics'][:correct], possible: @breakdown['Domain 1: Professional Practice and Ethics'][:possible] }) if (params[:group] == 'Domain 1: Professional Practice and Ethics') || !params[:group] %>
-			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 2: Intake, Assessment, and Diagnosis', correct: @breakdown['Domain 2: Intake, Assessment, and Diagnosis'][:correct], possible: @breakdown['Domain 2: Intake, Assessment, and Diagnosis'][:possible] }) if (params[:group] == 'Domain 2: Intake, Assessment, and Diagnosis') || !params[:group] %>
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 3: Areas of Clinical Focus', correct: @breakdown2['Domain 3: Areas of Clinical Focus'][:correct], possible: @breakdown2['Domain 3: Areas of Clinical Focus'][:possible] }) if (params[:group] == 'Domain 3: Areas of Clinical Focus') || !params[:group] || 'nill' %>
+			
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 4: Treatment Planning', correct: @breakdown2['Domain 4: Treatment Planning'][:correct], possible: @breakdown2['Domain 4: Treatment Planning'][:possible] }) if (params[:group] == 'Domain 4: Treatment Planning') || !params[:group] || 'nill' %>
 
-			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 3: Areas of Clinical Focus', correct: @breakdown['Domain 3: Areas of Clinical Focus'][:correct], possible: @breakdown['Domain 3: Areas of Clinical Focus'][:possible] }) if (params[:group] == 'Domain 3: Areas of Clinical Focus') || !params[:group] %>
-			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 4: Treatment Planning', correct: @breakdown['Domain 4: Treatment Planning'][:correct], possible: @breakdown['Domain 4: Treatment Planning'][:possible] }) if (params[:group] == 'Domain 4: Treatment Planning') || !params[:group] %>
-
-			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 5: Counseling Skills and Interventions', correct: @breakdown['Domain 5: Counseling Skills and Interventions'][:correct], possible: @breakdown['Domain 5: Counseling Skills and Interventions'][:possible] }) if (params[:group] == 'Domain 5: Counseling Skills and Interventions') || !params[:group] %>
-			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 6: Core Counseling Attributes', correct: @breakdown['Domain 6: Core Counseling Attributes'][:correct], possible: @breakdown['Domain 6: Core Counseling Attributes'][:possible] }) if (params[:group] == 'Domain 6: Core Counseling Attributes') || !params[:group] %>
-
+			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 5: Counseling Skills and Interventions', correct: @breakdown2['Domain 5: Counseling Skills and Interventions'][:correct], possible: @breakdown2['Domain 5: Counseling Skills and Interventions'][:possible] }) if (params[:group] == 'Domain 5: Counseling Skills and Interventions') || !params[:group] || 'nill' %>
+			
+			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Domain 6: Core Counseling Attributes', correct: @breakdown2['Domain 6: Core Counseling Attributes'][:correct], possible: @breakdown2['Domain 6: Core Counseling Attributes'][:possible] }) if (params[:group] == 'Domain 6: Core Counseling Attributes') || !params[:group] || 'nill' %>
 			
 		</div>
+		<% end %>
 		<br />
 		<a href="/nce/exams/<%= params[:id] %>/restart" class="btn restart">Start Over</a> &nbsp; <a href="/nce/exams" class="btn">Exams</a>
 		<br /><br />

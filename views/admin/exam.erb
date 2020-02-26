@@ -21,7 +21,7 @@
 								
 				<div class="span8">
 					<p>
-						<strong><%= question.position %>. <span class="label label-info"><%= question.score_type %></span> <%= question.body %></strong>
+						<strong><span class="label label-info"><%= question.score_type %></span>&nbsp;<span class="label label-success"><%= question.score_type2 %></span> <br  /><%= question.position %>. <%= question.body %></strong>
 					</p>
 					<%
 						answers = []
@@ -41,15 +41,29 @@
 									<span class="help-inline"><strong>Question</strong></span>
 									<input type="text" name="position" class="span1" value="<%= question.position %>">
 									&nbsp;
+									<select name="score_type2">
+										<option value="Undefined">Undefined</option>
+										<option <%= 'selected' if question.score_type2 == 'Domain 1: Professional Practice and Ethics' %> value="Domain 1: Professional Practice and Ethics">Domain 1: Professional Practice and Ethics</option>
+										<option <%= 'selected' if question.score_type2 == 'Domain 2: Intake, Assessment, and Diagnosis' %> value="Domain 2: Intake, Assessment, and Diagnosis">Domain 2: Intake, Assessment, and Diagnosis</option>
+										<option <%= 'selected' if question.score_type2 == 'Domain 3: Areas of Clinical Focus' %> value="Domain 3: Areas of Clinical Focus">Domain 3: Areas of Clinical Focus</option>
+										<option <%= 'selected' if question.score_type2 == 'Domain 4: Treatment Planning' %> value="Domain 4: Treatment Planning">Domain 4: Treatment Planning</option>
+										<option <%= 'selected' if question.score_type2 == 'Domain 5: Counseling Skills and Interventions' %> value="Domain 5: Counseling Skills and Interventions">Domain 5: Counseling Skills and Interventions</option>
+										<option <%= 'selected' if question.score_type2 == 'Domain 6: Core Counseling Attributes' %> value="Domain 6: Core Counseling Attributes">Domain 6: Core Counseling Attributes</option>
+									</select>
+									&nbsp;&nbsp;
 									<select name="score_type">
 										<option value="Undefined">Undefined</option>
-										<option <%= 'selected' if question.score_type == 'Domain 1: Professional Practice and Ethics' %> value="Domain 1: Professional Practice and Ethics">Domain 1: Professional Practice and Ethics</option>
-										<option <%= 'selected' if question.score_type == 'Domain 2: Intake, Assessment, and Diagnosis' %> value="Domain 2: Intake, Assessment, and Diagnosis">Domain 2: Intake, Assessment, and Diagnosis</option>
-										<option <%= 'selected' if question.score_type == 'Domain 3: Areas of Clinical Focus' %> value="Domain 3: Areas of Clinical Focus">Domain 3: Areas of Clinical Focus</option>
-										<option <%= 'selected' if question.score_type == 'Domain 4: Treatment Planning' %> value="Domain 4: Treatment Planning">Domain 4: Treatment Planning</option>
-										<option <%= 'selected' if question.score_type == 'Domain 5: Counseling Skills and Interventions' %> value="Domain 5: Counseling Skills and Interventions">Domain 5: Counseling Skills and Interventions</option>
-										<option <%= 'selected' if question.score_type == 'Domain 6: Core Counseling Attributes' %> value="Domain 6: Core Counseling Attributes">Domain 6: Core Counseling Attributes</option>
+										<option <%= 'selected' if question.score_type == 'Professional Orientation' %> value="Professional Orientation">Professional Orientation</option>
+										<option <%= 'selected' if question.score_type == 'Research and Program Evaluation' %> value="Research and Program Evaluation">Research and Program Evaluation</option>
+										<option <%= 'selected' if question.score_type == 'Appraisal' %> value="Appraisal">Appraisal</option>
+										<option <%= 'selected' if question.score_type == 'Lifestyle and Career Development' %> value="Lifestyle and Career Development">Lifestyle and Career Development</option>
+										<option <%= 'selected' if question.score_type == 'Helping Relationships' %> value="Helping Relationships">Helping Relationships</option>
+										<option <%= 'selected' if question.score_type == 'Group Counseling' %> value="Group Counseling">Group Counseling</option>
+										<option <%= 'selected' if question.score_type == 'Human Growth and Development' %> value="Human Growth and Development">Human Growth and Development</option>
+										<option <%= 'selected' if question.score_type == 'Social and Cultural Foundations' %> value="Social and Cultural Foundations">Social and Cultural Foundations</option>
 									</select>
+									
+									
 									&nbsp;
 									<label class="checkbox" style="display: inline-block; line-height: 0em;">
 										<input type="checkbox" name="countable" <%= 'checked' if question.countable? %> style="margin-top: -.4em;" /> Counts toward score

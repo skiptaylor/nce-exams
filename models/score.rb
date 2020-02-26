@@ -7,6 +7,7 @@ class Score
 
 	property :value,    	  Integer, default: 0
 	property :score_type,   String,	 default: 'Undefined'
+  property :score_type2,  String,	 default: 'Undefined'
 	property :countable,	  Boolean, default: true
 	property :required, 	  Boolean, default: false
 
@@ -39,6 +40,7 @@ post '/add-score/?' do
 		value: 			 answer.value,
 		required:		 answer.required,
 		score_type:  answer.question.score_type,
+    score_type2: answer.question.score_type2,
 		countable: 	 answer.question.countable
 	)
 	

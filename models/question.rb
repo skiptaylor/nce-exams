@@ -8,6 +8,7 @@ class Question
 	property :body,       Text, lazy: false
 	property :notes,      Text, lazy: false
 	property :score_type, String
+  property :score_type2, String
 	property :countable,	Boolean, default: true
 	property :position,   Integer
 

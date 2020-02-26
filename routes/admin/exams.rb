@@ -21,6 +21,7 @@ post '/admin/exams/:exam_id/questions/:question_id' do
 		position: params[:position],
 		body: params[:body].strip,
 		score_type: params[:score_type],
+    score_type2: params[:score_type2],
 		countable: false
 	)
 	question.update(countable: true) if params[:countable]
@@ -38,5 +39,5 @@ post '/admin/exams/:exam_id/questions/:question_id' do
 	required_answer.update(required: true)
 
 	session[:alert] = { style: 'alert-success', message: "Question #{question.position} updated." }
-	redirect "/admin/exams/#{params[:exam_id]}"
+	redirect "/admin/exams/#{params[:exam_id]}/"
 end
