@@ -38,7 +38,7 @@
 		<% end %>
 
 		<div class="row">
-			<% if @exam.id == 2 %>
+			<% if @exam.id == 1 || @exam.id == 2 %>
 			<% params[:group] ? offset ||= true : offset ||= false %>
 			
 			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Professional Orientation', correct: @breakdown['Professional Orientation'][:correct], possible: @breakdown['Professional Orientation'][:possible] }) if (params[:group] == 'Professional Orientation') || !params[:group] %>
@@ -51,7 +51,7 @@
 			<%= erb(:progressbar_nce, layout: false, locals: { offset: offset, label: 'Social and Cultural Foundations', correct: @breakdown['Social and Cultural Foundations'][:correct], possible: @breakdown['Social and Cultural Foundations'][:possible] }) if (params[:group] == 'Social and Cultural Foundations') || !params[:group] %>
 		<% end %>
 		</div>	
-		<% if @exam.id == 1 || @exam.id == 4 || @exam.id == 3 %>	
+		<% if @exam.id == 3 || @exam.id == 4 %>	
 		<div class="row">
 			<% params[:group] ? offset ||= true : offset ||= false %>	
 			<%= erb(:progressbar_nce, layout: false, locals: { label: 'Domain 1: Professional Practice and Ethics', correct: @breakdown2['Domain 1: Professional Practice and Ethics'][:correct], possible: @breakdown2['Domain 1: Professional Practice and Ethics'][:possible] }) if (params[:group] == 'Domain 1: Professional Practice and Ethics') || !params[:group] || 'nill' %>
