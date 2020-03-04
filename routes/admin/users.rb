@@ -80,7 +80,7 @@ post '/admin/users/new/?' do
   
   puts 'Setting session and redirecting'
 	session[:alert] = { style: 'alert-success', message: "#{user.name} has been created." }
-	redirect "/admin/users/#{user.id}"
+	redirect "/admin/users/?"
 end
 
 get '/admin/users/:id/?' do
@@ -159,7 +159,7 @@ post '/admin/users/:id/?' do
   params[:practice_exams] ? user.update(practice_exams: true) : user.update(practice_exams: false)
 	
 	session[:alert] = { style: 'alert-success', message: "#{user.name} has been updated." }
-	redirect "/admin/users/#{user.id}"
+	redirect "/admin/users"
 end
 
 get '/admin/users/:id/delete/?' do
