@@ -95,6 +95,8 @@ get '/nce/exams/:id/score/?' do
 	@average = 0 if @average < 0
 	Average.first_or_create(exam_id: params[:id], user_id: session[:user], score: @average)
 	Use.first_or_create(user_id: session[:user], exam_id: params[:id], sample: @exam.sample)
+  
+  
 
 	@breakdown = {}
 	@breakdown['Professional Orientation'] 				 = {possible: 0, correct: 0}
@@ -107,7 +109,7 @@ get '/nce/exams/:id/score/?' do
 	@breakdown['Social and Cultural Foundations']  = {possible: 0, correct: 0}
 	@breakdown['Undefined']  											 = {possible: 0, correct: 0}
 
-	@questions.each do |q|
+	@exam.questions(:countable => true).each do |q|
 		@breakdown[q.score_type][:possible] += 1
 	end
 
@@ -115,7 +117,6 @@ get '/nce/exams/:id/score/?' do
 		@breakdown[s.score_type][:correct]  += 1 if s.required?
 	end
 	
-  
   
   
   @breakdown2 = {} 
@@ -127,7 +128,7 @@ get '/nce/exams/:id/score/?' do
 	@breakdown2['Domain 6: Core Counseling Attributes'] 					= {possible: 0, correct: 0}
 	@breakdown2['Undefined']  											              = {possible: 0, correct: 0}
 
-	@questions.each do |q|
+	@exam.questions(:countable => true).each do |q|
 		@breakdown2[q.score_type2][:possible] += 1
 	end
 
