@@ -15,7 +15,7 @@ gem 'pony', '~> 1.4'
 
 gem 'rack-flash3', '~> 1.0.1', require: 'rack-flash'
 
-gem 'redcarpet', '~> 2.1.1'
+gem 'redcarpet', '~> 3.5.1'
 
 gem 'sass', '~> 3.1.19'
 
