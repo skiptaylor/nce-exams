@@ -25,7 +25,7 @@ gem 'sinatra-contrib', '~> 1.3.1'
 gem 'sprockets', '~> 2.12.5'
 
 gem 'stripe', '~> 5.8'
-gem 'addressable', '~> 2.3.7'
+gem 'addressable', '~> 2.8.0'
 
 gem 'prawn', '~> 2.0.1'
 gem 'prawn-table', '~> 0.2.1'
